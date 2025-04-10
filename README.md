@@ -14,11 +14,11 @@ This bot supports concurrency, meaning that if multiple users request the same c
 
 ## Admin's Commands
 
-| Command | Example                        | Description                    |
-| ------- | ------------------------------ | ------------------------------ |
-| /add    | /add 12345667 <-- (user id)    | Add a user to can use bot      |
-| /remove | /remove 12345667 <-- (user id) | Remove a user to can't use bot |
-| /users  | /users                         | Show allowed users             |
+| Command | Example                                       | Description                    |
+| ------- | --------------------------------------------- | ------------------------------ |
+| /add    | /add 12345667 <-- (user id) name <-- (a name) | Add a user to can use bot      |
+| /remove | /remove 12345667 <-- (user id)                | Remove a user to can't use bot |
+| /users  | /users                                        | Show allowed users             |
 
 ## Usage
 
