@@ -38,22 +38,19 @@ commands.command("add", async (ctx) => {
   if (user?.role != "ADMIN") {
     return ctx.reply("Sorry you aren't admin.");
   }
-  const newUserId = ctx.match.trim();
-  let profile: ChatFullInfo;
+  const text = ctx.match.trim().match(/(\d+)\s+(\S+)/);
+  const id = text?.[1] as string;
+  const username = text?.[2];
+
   try {
-    profile = await ctx.api.getChat(newUserId);
-  } catch (error) {
-    return ctx.reply(`${newUserId} is not a Telegram user.`);
-  }
-  const isUserExist = await db.user.findUnique({ where: { id: newUserId } });
-  if (isUserExist) {
-    return ctx.reply(`${isUserExist.id} is already exist.`);
-  }
-  try {
+    const isUserExist = await db.user.findUnique({ where: { id } });
+    if (isUserExist) {
+      return ctx.reply(`${isUserExist.id} is already exist.`);
+    }
     await db.user.create({
-      data: { id: newUserId, username: profile.username },
+      data: { id, username },
     });
-    return ctx.reply(`${newUserId} has been added to users list.`);
+    return ctx.reply(`${id} has been added to users list.`);
   } catch (error) {
     console.log(error);
     return ctx.reply(
@@ -89,7 +86,7 @@ commands.command("users", async (ctx) => {
     const users = db.user.findMany({ where: { id: { not: user.id } } });
     const body =
       `Users count: ${(await users).length}\n` +
-      (await users).map((u) => `${u.id} @${u.username}`).join("\n");
+      (await users).map((u) => `${u.id} ${u.username}`).join("\n");
     return ctx.reply(body);
   } catch (error) {
     console.log(error);
