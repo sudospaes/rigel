@@ -27,7 +27,7 @@ export async function youtubeFormatsList(ctx: UserContext, url: string) {
     );
   } catch (error) {
     console.log(error);
-    return ctx.reply("😭 Something is wrong! tell admin about that.");
+    return ctx.reply("There is a problem getting link information. 👀");
   }
 }
 
@@ -67,7 +67,7 @@ async function handleYoutube(ctx: UserContext, url: string, format: string) {
     await ytdlp.clean();
   } catch (error) {
     console.log(error);
-    return ctx.reply("😭 Something is wrong! tell admin about that.");
+    return ctx.reply("Download operation has been failed. 😭");
   }
   waitList.delete(`${url}|${format}`);
 }

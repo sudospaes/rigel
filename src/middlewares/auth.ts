@@ -24,6 +24,7 @@ auth.use(async (ctx, next) => {
   });
   if (!user) return;
   ctx.session.user = user;
+  next();
 });
 
 export default auth;

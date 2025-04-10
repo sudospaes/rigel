@@ -26,9 +26,7 @@ commands.command("clean", async (ctx) => {
     return ctx.reply("Users cleantion was successful.");
   } catch (error) {
     console.log(error);
-    return ctx.reply(
-      "I could not execute this command. Please check logs in the server."
-    );
+    return ctx.reply("I could not execute this command.");
   }
 });
 
@@ -53,9 +51,7 @@ commands.command("add", async (ctx) => {
     return ctx.reply(`${id} has been added to users list.`);
   } catch (error) {
     console.log(error);
-    return ctx.reply(
-      "I could not execute this command. Please check logs in the server."
-    );
+    return ctx.reply("I could not execute this command.");
   }
 });
 
@@ -73,9 +69,7 @@ commands.command("remove", async (ctx) => {
     return ctx.reply(`${id} has been removed.`);
   } catch (error) {
     console.log(error);
-    return ctx.reply(
-      "User is not exist or can not execute this command. Please check logs in the server."
-    );
+    return ctx.reply("User is not exist or can not execute this command.");
   }
 });
 
@@ -84,18 +78,11 @@ commands.command("users", async (ctx) => {
   if (user?.role != "ADMIN") {
     return ctx.reply("Sorry you aren't admin.");
   }
-  try {
-    const users = await db.user.findMany({ where: { id: { not: user.id } } });
-    const body =
-      `Users count: ${users.length}\n` +
-      users.map((u) => `${u.id} ${u.username}`).join("\n");
-    return ctx.reply(body);
-  } catch (error) {
-    console.log(error);
-    return ctx.reply(
-      "I could not execute this command. Please check logs in the server."
-    );
-  }
+  const users = await db.user.findMany({ where: { id: { not: user.id } } });
+  const body =
+    `Users count: ${users.length}\n` +
+    users.map((u) => `${u.id} ${u.username}`).join("\n");
+  return ctx.reply(body);
 });
 
 export default commands;

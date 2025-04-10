@@ -5,19 +5,14 @@ import type { UserContext } from "types/type";
 const checker = new Composer<UserContext>();
 
 checker.use((ctx, next) => {
-  if (!ctx.callbackQuery) {
-    ctx.session.user!.media = undefined;
-  }
-  if (ctx.callbackQuery && ctx.session.user!.media !== undefined) {
-    next();
-  }
+  if (!ctx.callbackQuery) ctx.session.user!.media = undefined;
+  if (ctx.callbackQuery && ctx.session.user!.media) next();
   next();
 });
 
 checker.on("message", async (ctx, next) => {
-  if (ctx.callbackQuery && ctx.session.user!.media !== undefined) {
-    next();
-  }
+  if (ctx.callbackQuery && ctx.session.user!.media) next();
+
   const user = ctx.session.user;
   const link = ctx.message?.text as string;
 

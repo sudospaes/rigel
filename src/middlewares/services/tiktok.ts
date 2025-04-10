@@ -27,7 +27,7 @@ async function handleTiktok(ctx: UserContext, url: string) {
     await ytdlp.clean();
   } catch (error) {
     console.log(error);
-    return ctx.reply("😭 Something is wrong! tell admin about that.");
+    return ctx.reply("Download operation has been failed. 😭");
   }
 
   waitList.delete(url);

@@ -1,4 +1,4 @@
-import { Composer, InlineKeyboard, InputFile } from "grammy";
+import { Composer } from "grammy";
 
 import type { UserContext } from "types/type";
 
