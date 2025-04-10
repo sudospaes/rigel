@@ -1,6 +1,6 @@
 # Rigel, A cool downloader bot 🌠
 
-A personal Telegram bot for downloading from various media. 😉
+A personal Telegram bot for downloading from various media. Powered by ytdlp 😉
 <br/>
 <br/>
 This bot supports concurrency, meaning that if multiple users request the same content simultaneously, it downloads the file only once and sends it to all of them.
@@ -26,7 +26,7 @@ Just send your media link to bot and get your content 😃. Of course, the admin
 
 ## Setup and deploy
 
-1.  Install [Bun](https://bun.sh)
+1.  Install [Bun](https://bun.sh) and [Ytdlp](https://github.com/yt-dlp/yt-dlp/wiki/Installation#installing-the-release-binary)
 2.  Download latest version from [Releases](https://github.com/sudospaes/rigel/releases)
 3.  Extract downloaded zip
 4.  Move to extracted directory
