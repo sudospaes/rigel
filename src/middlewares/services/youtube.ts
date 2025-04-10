@@ -8,22 +8,27 @@ import { waitList, waitForDownload } from "helpers/utils";
 export async function youtubeFormatsList(ctx: UserContext, url: string) {
   const ytdlp = new Youtube(url);
   const msg = await ctx.reply("🔎 Get information...");
-  const keyboard = new InlineKeyboard();
-  const formats = await ytdlp.formats();
-  formats.forEach((format) => {
-    keyboard
-      .text(`${format.quality} - ~${format.filesize}`, `format_${format.id}`)
-      .row();
-  });
-  keyboard.text("Give me this as mp3", "format_mp3").row();
-  await ctx.api.deleteMessage(msg.chat.id, msg.message_id);
-  await ctx.reply(
-    `Select one of the options:
+  try {
+    const formats = await ytdlp.formats();
+    const keyboard = new InlineKeyboard();
+    formats.forEach((format) => {
+      keyboard
+        .text(`${format.quality} - ~${format.filesize}`, `format_${format.id}`)
+        .row();
+    });
+    keyboard.text("Give me this as mp3", "format_mp3").row();
+    await ctx.api.deleteMessage(msg.chat.id, msg.message_id);
+    await ctx.reply(
+      `Select one of the options:
       ⚠️ The final file may be slightly larger due to the addition of audio.`,
-    {
-      reply_markup: keyboard,
-    }
-  );
+      {
+        reply_markup: keyboard,
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    return ctx.reply("😭 Something is wrong! tell admin about that.");
+  }
 }
 
 async function handleYoutube(ctx: UserContext, url: string, format: string) {
