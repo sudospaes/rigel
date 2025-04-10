@@ -8,11 +8,14 @@ checker.use((ctx, next) => {
   if (!ctx.callbackQuery) {
     ctx.session.user!.media = undefined;
   }
+  if (ctx.callbackQuery && ctx.session.user!.media !== undefined) {
+    next();
+  }
   next();
 });
 
 checker.on("message", async (ctx, next) => {
-  if (ctx.callbackQuery) {
+  if (ctx.callbackQuery && ctx.session.user!.media !== undefined) {
     next();
   }
   const user = ctx.session.user;
