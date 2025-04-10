@@ -90,7 +90,6 @@ commands.command("users", async (ctx) => {
     return ctx.reply(body);
   } catch (error) {
     console.log(error);
-    console.log(error);
     return ctx.reply(
       "I could not execute this command. Please check logs in the server."
     );
