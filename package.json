@@ -5,14 +5,14 @@
   "license": "BSD-3-Clause",
   "devDependencies": {
     "@types/bun": "latest",
-    "prisma": "^6.5.0"
+    "prisma": "^6.6.0"
   },
   "peerDependencies": {
     "typescript": "^5.8.2"
   },
   "dependencies": {
     "@grammyjs/storage-prisma": "^2.5.1",
-    "@prisma/client": "^6.5.0",
+    "@prisma/client": "^6.6.0",
     "grammy": "^1.35.1"
   },
   "scripts": {
