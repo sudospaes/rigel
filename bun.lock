@@ -5,15 +5,15 @@
       "name": "rigel",
       "dependencies": {
         "@grammyjs/storage-prisma": "^2.5.1",
-        "@prisma/client": "^6.4.1",
-        "grammy": "^1.35.0",
+        "@prisma/client": "^6.5.0",
+        "grammy": "^1.35.1",
       },
       "devDependencies": {
         "@types/bun": "latest",
-        "prisma": "^6.4.1",
+        "prisma": "^6.5.0",
       },
       "peerDependencies": {
-        "typescript": "^5",
+        "typescript": "^5.8.2",
       },
     },
   },
