@@ -64,15 +64,17 @@ commands.command("remove", async (ctx) => {
   if (user?.role != "ADMIN") {
     return ctx.reply("Sorry you aren't admin.");
   }
-  const targetUser = ctx.match.trim();
+  const id = ctx.match.trim();
   try {
-    await db.user.delete({ where: { id: targetUser } });
-    await db.session.delete({ where: { key: targetUser.toString() } });
-    return ctx.reply(`${targetUser} has been removed.`);
+    await db.user.delete({ where: { id } });
+    if (await db.session.findUnique({ where: { key: id } })) {
+      await db.session.delete({ where: { key: id } });
+    }
+    return ctx.reply(`${id} has been removed.`);
   } catch (error) {
     console.log(error);
     return ctx.reply(
-      "I could not execute this command. Please check logs in the server."
+      "User is not exist or can not execute this command. Please check logs in the server."
     );
   }
 });
@@ -83,10 +85,10 @@ commands.command("users", async (ctx) => {
     return ctx.reply("Sorry you aren't admin.");
   }
   try {
-    const users = db.user.findMany({ where: { id: { not: user.id } } });
+    const users = await db.user.findMany({ where: { id: { not: user.id } } });
     const body =
-      `Users count: ${(await users).length}\n` +
-      (await users).map((u) => `${u.id} ${u.username}`).join("\n");
+      `Users count: ${users.length}\n` +
+      users.map((u) => `${u.id} ${u.username}`).join("\n");
     return ctx.reply(body);
   } catch (error) {
     console.log(error);
