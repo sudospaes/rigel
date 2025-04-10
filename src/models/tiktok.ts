@@ -10,17 +10,7 @@ class Tiktok extends Ytdlp {
     const outPath = join(rootPath(), "downloads", `%(title)s.%(ext)s`);
     this.status = "ACTIVE";
     const p = spawn(
-      [
-        "yt-dlp",
-        "-f",
-        "bv+ba",
-        "-o",
-        outPath,
-        this.url,
-        "--quiet",
-        "--exec",
-        "echo {}",
-      ],
+      ["yt-dlp", "-o", outPath, this.url, "--quiet", "--exec", "echo {}"],
       {
         stderr: "pipe",
         stdout: "pipe",
