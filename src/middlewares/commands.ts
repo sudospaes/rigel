@@ -1,5 +1,4 @@
 import { Composer } from "grammy";
-import type { ChatFullInfo } from "grammy/types";
 
 import type { UserContext } from "types/type";
 
@@ -42,11 +41,12 @@ commands.command("add", async (ctx) => {
   const id = text?.[1] as string;
   const username = text?.[2];
 
+  const isUserExist = await db.user.findUnique({ where: { id } });
+  if (isUserExist) {
+    return ctx.reply(`${isUserExist.id} is already exist.`);
+  }
+
   try {
-    const isUserExist = await db.user.findUnique({ where: { id } });
-    if (isUserExist) {
-      return ctx.reply(`${isUserExist.id} is already exist.`);
-    }
     await db.user.create({
       data: { id, username },
     });
