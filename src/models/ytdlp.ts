@@ -31,6 +31,7 @@ abstract class Ytdlp {
   formats?(): any;
 
   public async clean() {
+    if (!this._filePath) return;
     const downloadedFile = Bun.file(this._filePath);
     if (await downloadedFile.exists()) {
       await downloadedFile.delete();
