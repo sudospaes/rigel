@@ -19,8 +19,7 @@ export async function youtubeFormatsList(ctx: UserContext, url: string) {
     keyboard.text("Give me this as mp3", "format_mp3").row();
     await ctx.api.deleteMessage(msg.chat.id, msg.message_id);
     await ctx.reply(
-      `Select one of the options:
-      ⚠️ The final file may be slightly larger due to the addition of audio.`,
+      `⚠️ The final file may be slightly larger due to the addition of audio.`,
       {
         reply_markup: keyboard,
       }
