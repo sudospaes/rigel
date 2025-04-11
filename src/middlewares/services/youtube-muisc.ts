@@ -24,10 +24,11 @@ async function handleYTMusic(ctx: UserContext, url: string) {
     await ctx.api.sendChatAction(ctx.chatId!, "upload_document");
     await ctx.replyWithAudio(new InputFile(ytdlp.filePath));
     await ctx.api.deleteMessage(msg.chat.id, msg.message_id);
-    await ytdlp.clean();
   } catch (error) {
     console.log(error);
     return ctx.reply("Download operation has been failed. 😭");
+  } finally {
+    await ytdlp.clean();
   }
 
   waitList.delete(url);
