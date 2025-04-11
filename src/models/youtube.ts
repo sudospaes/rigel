@@ -35,7 +35,7 @@ class Youtube extends Ytdlp {
         id &&
         quality !== "unknown" &&
         filesize !== "unknown" &&
-        filesizeInMB < 45
+        filesizeInMB < 20
       ) {
         if (
           !qualitys.has(quality) ||
