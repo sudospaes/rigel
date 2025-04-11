@@ -1,5 +1,3 @@
-import { waitForDownload } from "helpers/utils";
-
 abstract class Ytdlp {
   protected url: string;
   private _status: keyof typeof Ytdlp.ProcessStatus = "INACTIVE";

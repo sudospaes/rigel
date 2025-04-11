@@ -5,8 +5,8 @@ import type { UserContext } from "types/type";
 const checker = new Composer<UserContext>();
 
 checker.use((ctx, next) => {
-  if (!ctx.callbackQuery) ctx.session.user!.media = undefined;
   if (ctx.callbackQuery && ctx.session.user!.media) return next();
+  ctx.session.user!.media = undefined;
   next();
 });
 
