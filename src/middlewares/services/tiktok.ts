@@ -9,7 +9,7 @@ async function handleTiktok(ctx: UserContext, url: string) {
   let ytdlp: Tiktok;
   const instance = waitList.get(url);
 
-  if (instance !== undefined) ytdlp = instance as Tiktok;
+  if (instance) ytdlp = instance as Tiktok;
   else {
     ytdlp = new Tiktok(url);
     waitList.set(url, ytdlp);

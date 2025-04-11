@@ -35,9 +35,8 @@ async function handleYoutube(ctx: UserContext, url: string, format: string) {
   let ytdlp: Youtube;
   const instance = waitList.get(`${url}|${format}`);
 
-  if (instance !== undefined) {
-    ytdlp = instance as Youtube;
-  } else {
+  if (instance) ytdlp = instance as Youtube;
+  else {
     ytdlp = new Youtube(url);
     waitList.set(`${url}|${format}`, ytdlp);
   }
@@ -46,14 +45,9 @@ async function handleYoutube(ctx: UserContext, url: string, format: string) {
 
   try {
     if (ytdlp.status == "INACTIVE") {
-      if (format == "mp3") {
-        await ytdlp.downloadAudio();
-      } else {
-        await ytdlp.downloadVideo(format);
-      }
-    } else {
-      await waitForDownload(ytdlp);
-    }
+      if (format == "mp3") await ytdlp.downloadAudio();
+      else await ytdlp.downloadVideo(format);
+    } else await waitForDownload(ytdlp);
 
     if (format == "mp3") {
       await ctx.api.sendChatAction(ctx.chatId!, "upload_document");

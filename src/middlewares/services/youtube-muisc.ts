@@ -9,7 +9,7 @@ async function handleYTMusic(ctx: UserContext, url: string) {
   let ytdlp: YTMusic;
   const instance = waitList.get(url);
 
-  if (instance !== undefined) ytdlp = instance as YTMusic;
+  if (instance) ytdlp = instance as YTMusic;
   else {
     ytdlp = new YTMusic(url);
     waitList.set(url, ytdlp);

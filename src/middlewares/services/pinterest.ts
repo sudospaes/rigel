@@ -9,7 +9,7 @@ async function handlePinterest(ctx: UserContext, url: string) {
   let ytdlp: Pinterest;
   const instance = waitList.get(url);
 
-  if (instance !== undefined) ytdlp = instance as Pinterest;
+  if (instance) ytdlp = instance as Pinterest;
   else {
     ytdlp = new Pinterest(url);
     waitList.set(url, ytdlp);
