@@ -27,6 +27,8 @@ checker.on("message", (ctx, next) => {
     user!.media = { type: "ytm", url: link };
   else if (domain == "vm.tiktok.com" || domain == "tiktok.com")
     user!.media = { type: "tt", url: link };
+  else if (domain == "www.instagram.com" || domain == "instagram.com")
+    user!.media = { type: "ig", url: link };
   else return ctx.reply("Unsupported platform! ❌");
   next();
 });

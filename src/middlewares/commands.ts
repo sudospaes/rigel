@@ -9,10 +9,11 @@ const commands = new Composer<UserContext>();
 commands.command("start", (ctx) => {
   ctx.reply(`Wellcome to @${Bun.env.ADMIN_UN} personal downloader bot.
 it support currently:
-    ✨ Pinterest
-    🎞️ Youtube
+    📌 Pinterest (Video)
+    📺 Youtube (Video / Audio)
     🎧 Youtube Music
-    👯 TikTok`);
+    👯 Tiktok (Video)
+    📸 Instagram (Video)`);
 });
 
 commands.command("clean", async (ctx) => {

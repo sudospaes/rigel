@@ -11,6 +11,7 @@ This bot supports concurrency, meaning that if multiple users request the same c
 - 📺 Youtube (Video / Audio)
 - 🎧 Youtube Music
 - 👯 Tiktok (Video)
+- 📸 Instagram (Video)
 
 ## Admin's Commands
 
