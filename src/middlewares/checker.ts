@@ -29,6 +29,7 @@ checker.on("message", (ctx, next) => {
     user!.media = { type: "tt", url: link };
   else if (domain == "www.instagram.com" || domain == "instagram.com")
     user!.media = { type: "ig", url: link };
+  else if (domain == "soundcloud.com") user!.media = { type: "sc", url: link };
   else return ctx.reply("Unsupported platform! ❌");
   next();
 });

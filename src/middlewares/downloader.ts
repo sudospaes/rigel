@@ -7,6 +7,7 @@ import handleYoutube from "middlewares/services/youtube";
 import handleYTMusic from "middlewares/services/youtube-muisc";
 import handleTiktok from "middlewares/services/tiktok";
 import handleInstagram from "./services/instagram";
+import handleSoundCloud from "./services/soundcloud";
 
 import { youtubeFormatsList } from "middlewares/services/youtube";
 
@@ -29,6 +30,10 @@ downloader.use(async (ctx, next) => {
 
     case "ig":
       await handleInstagram(ctx, media.url);
+      break;
+
+    case "sc":
+      await handleSoundCloud(ctx, media.url);
       break;
 
     case "yt":

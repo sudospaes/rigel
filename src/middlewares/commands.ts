@@ -13,7 +13,8 @@ it support currently:
     📺 Youtube (Video / Audio)
     🎧 Youtube Music
     👯 Tiktok (Video)
-    📸 Instagram (Video)`);
+    📸 Instagram (Video)
+    ☁️ SoundCloud`);
 });
 
 commands.command("clean", async (ctx) => {
