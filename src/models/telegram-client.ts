@@ -78,6 +78,7 @@ class TGClient {
             duration: metadata.duration,
             h: metadata.height,
             w: metadata.width,
+            supportsStreaming: true,
           }),
         ],
       });
