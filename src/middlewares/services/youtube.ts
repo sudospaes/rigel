@@ -6,7 +6,7 @@ import Youtube from "models/youtube";
 import { waitList, waitForDownload, waitForArchiving } from "helpers/ytdlp";
 import { sendFromArchive, addToArchive } from "helpers/archive";
 
-import { client } from "preload";
+import client from "client";
 
 export async function youtubeFormatsList(ctx: UserContext, url: string) {
   const ytdlp = new Youtube(url);

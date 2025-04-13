@@ -4,7 +4,7 @@ import YTMusic from "models/youtube-music";
 import { waitList, waitForDownload, waitForArchiving } from "helpers/ytdlp";
 import { sendFromArchive, addToArchive } from "helpers/archive";
 
-import { client } from "preload";
+import client from "client";
 
 async function handleYTMusic(ctx: UserContext, url: string) {
   const archive = await sendFromArchive(ctx, url);

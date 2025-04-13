@@ -4,7 +4,7 @@ import Instagram from "models/instagram";
 import { waitList, waitForDownload, waitForArchiving } from "helpers/ytdlp";
 import { sendFromArchive, addToArchive } from "helpers/archive";
 
-import { client } from "preload";
+import client from "client";
 
 async function handleInstagram(ctx: UserContext, url: string) {
   const archive = await sendFromArchive(ctx, url);

@@ -6,9 +6,10 @@ import { StringSession } from "telegram/sessions";
 import { rootPath } from "helpers/utils";
 import { getMetadata, getThumbnail } from "helpers/ffmpeg";
 
-import { channelId, caption } from "preload";
-
 import type { FileMessage } from "types/interface";
+
+const channelId = Bun.env.CHANNEL_ID as string;
+const caption = Bun.env.CAPTION as string;
 
 class TGClient {
   private client: TelegramClient;
