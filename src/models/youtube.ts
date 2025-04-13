@@ -12,12 +12,13 @@ class Youtube extends Ytdlp {
       stdout: "pipe",
       stderr: "pipe",
     });
-    let pOut: string = "";
-    try {
-      pOut = await new Response(p.stdout).text();
-    } catch (error) {
-      throw error;
+    const exitCode = await p.exited;
+    if (exitCode != 0) {
+      this.status = "INACTIVE";
+      const stderr = await new Response(p.stderr).text();
+      throw stderr;
     }
+    const pOut = await new Response(p.stdout).text();
     const lines = pOut.trim().split("\n");
     const qualitys = new Map<string, YTVideoInfo>();
     for (const line of lines) {
@@ -77,8 +78,8 @@ class Youtube extends Ytdlp {
     const exitCode = await p.exited;
     if (exitCode != 0) {
       this.status = "INACTIVE";
-      const err = new Error(await new Response(p.stderr).text());
-      throw err;
+      const stderr = await new Response(p.stderr).text();
+      throw stderr;
     }
     const path = await new Response(p.stdout).text();
     this.filePath = sanitizePath(path);
@@ -113,8 +114,8 @@ class Youtube extends Ytdlp {
     const exitCode = await p.exited;
     if (exitCode != 0) {
       this.status = "INACTIVE";
-      const err = new Error(await new Response(p.stderr).text());
-      throw err;
+      const stderr = await new Response(p.stderr).text();
+      throw stderr;
     }
     const path = await new Response(p.stdout).text();
     this.filePath = sanitizePath(path);
