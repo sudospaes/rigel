@@ -9,8 +9,19 @@ export interface UserSessionData {
   } | null;
 }
 
-export interface YTVideosInfo {
+export interface YTVideoInfo {
   id: string;
   quality: string;
   filesize: string;
+}
+
+export interface FileMessage {
+  msgId: number;
+  chatId: string;
+}
+
+export interface VideoMetadata {
+  height: number;
+  width: number;
+  duration: number;
 }

@@ -24,6 +24,7 @@ abstract class Ytdlp {
   static ProcessStatus = {
     ACTIVE: "ACTIVE",
     INACTIVE: "INACTIVE",
+    PENDING: "PENDING",
   } as const;
 
   downloadVideo?(videoId?: string): Promise<void>;
@@ -31,6 +32,7 @@ abstract class Ytdlp {
   formats?(): any;
 
   public async clean() {
+    this._status = "INACTIVE";
     if (!this._filePath) return;
     const downloadedFile = Bun.file(this._filePath);
     if (await downloadedFile.exists()) {

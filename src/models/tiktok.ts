@@ -24,7 +24,7 @@ class Tiktok extends Ytdlp {
     }
     const path = await new Response(p.stdout).text();
     this.filePath = sanitizePath(path);
-    this.status = "INACTIVE";
+    this.status = "PENDING";
   }
 }
 

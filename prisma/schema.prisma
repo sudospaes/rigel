@@ -21,6 +21,12 @@ model Session {
   value String
 }
 
+model Archive {
+  key    String @id @unique
+  chatId String
+  msgId  String
+}
+
 enum Role {
   USER
   ADMIN

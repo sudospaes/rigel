@@ -1,9 +1,12 @@
-import { InputFile, InlineKeyboard } from "grammy";
+import { InlineKeyboard } from "grammy";
 
 import type { UserContext } from "types/type";
 
 import Youtube from "models/youtube";
-import { waitList, waitForDownload } from "helpers/utils";
+import { waitList, waitForDownload, waitForArchiving } from "helpers/ytdlp";
+import { sendFromArchive, addToArchive } from "helpers/archive";
+
+import { client } from "preload";
 
 export async function youtubeFormatsList(ctx: UserContext, url: string) {
   const ytdlp = new Youtube(url);
@@ -31,13 +34,18 @@ export async function youtubeFormatsList(ctx: UserContext, url: string) {
 }
 
 async function handleYoutube(ctx: UserContext, url: string, format: string) {
+  const key = `${url}|${format}`;
+
+  const result = await sendFromArchive(ctx, key);
+  if (result) return;
+
   let ytdlp: Youtube;
-  const instance = waitList.get(`${url}|${format}`);
+  const instance = waitList.get(key);
 
   if (instance) ytdlp = instance as Youtube;
   else {
     ytdlp = new Youtube(url);
-    waitList.set(`${url}|${format}`, ytdlp);
+    waitList.set(key, ytdlp);
   }
 
   const msg = await ctx.reply("⬇️ Downloading...");
@@ -46,23 +54,32 @@ async function handleYoutube(ctx: UserContext, url: string, format: string) {
     if (ytdlp.status == "INACTIVE") {
       if (format == "mp3") await ytdlp.downloadAudio();
       else await ytdlp.downloadVideo(format);
-    } else await waitForDownload(ytdlp);
+    } else {
+      await waitForDownload(ytdlp);
+      await waitForArchiving(ytdlp);
+      await sendFromArchive(ctx, url);
+      return;
+    }
 
     if (format == "mp3") {
       await ctx.api.sendChatAction(ctx.chatId!, "upload_document");
-      await ctx.replyWithAudio(new InputFile(ytdlp.filePath));
+      const file = await client.sendFile(ytdlp.filePath);
+      await ctx.api.copyMessage(ctx.chatId!, file.chatId, file.msgId);
+      await addToArchive(key, file);
     } else {
       await ctx.api.sendChatAction(ctx.chatId!, "upload_video");
-      await ctx.replyWithVideo(new InputFile(ytdlp.filePath));
+      const file = await client.sendVideo(ytdlp.filePath);
+      await ctx.api.copyMessage(ctx.chatId!, file.chatId, file.msgId);
+      await addToArchive(key, file);
     }
     await ctx.api.deleteMessage(msg.chat.id, msg.message_id);
   } catch (error) {
     console.log(error);
-    return ctx.reply("Download operation has been failed. 😭");
+    return ctx.reply("An internal operation has been failed. 😭");
   } finally {
     await ytdlp.clean();
   }
-  waitList.delete(`${url}|${format}`);
+  waitList.delete(key);
 }
 
 export default handleYoutube;

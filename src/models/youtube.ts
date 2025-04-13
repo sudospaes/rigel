@@ -1,5 +1,5 @@
 import Ytdlp from "models/ytdlp";
-import type { YTVideosInfo } from "types/interface";
+import type { YTVideoInfo } from "types/interface";
 
 import { spawn } from "bun";
 import { join } from "path";
@@ -19,7 +19,7 @@ class Youtube extends Ytdlp {
       throw error;
     }
     const lines = pOut.trim().split("\n");
-    const qualitys = new Map<string, YTVideosInfo>();
+    const qualitys = new Map<string, YTVideoInfo>();
     for (const line of lines) {
       const parts = line.split(/\s+/);
       const id = parts[0];
@@ -35,7 +35,7 @@ class Youtube extends Ytdlp {
         id &&
         quality !== "unknown" &&
         filesize !== "unknown" &&
-        filesizeInMB < 20
+        filesizeInMB < 1500
       ) {
         if (
           !qualitys.has(quality) ||
@@ -82,7 +82,7 @@ class Youtube extends Ytdlp {
     }
     const path = await new Response(p.stdout).text();
     this.filePath = sanitizePath(path);
-    this.status = "INACTIVE";
+    this.status = "PENDING";
   }
 
   async downloadAudio() {
@@ -118,7 +118,7 @@ class Youtube extends Ytdlp {
     }
     const path = await new Response(p.stdout).text();
     this.filePath = sanitizePath(path);
-    this.status = "INACTIVE";
+    this.status = "PENDING";
   }
 }
 

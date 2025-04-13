@@ -28,17 +28,35 @@ Just send your media link to bot and get your content 😃. Of course, the admin
 
 ## Setup and deploy
 
-1.  Install [Bun](https://bun.sh) and [Ytdlp](https://github.com/yt-dlp/yt-dlp/wiki/Installation#installing-the-release-binary)
-2.  Download latest version from [Releases](https://github.com/sudospaes/rigel/releases)
-3.  Extract downloaded zip
-4.  Move to extracted directory
-5.  Run `bun i` to install dependencies
-6.  Create `.env` in the current directory and paste these in that
+1.  Install [Bun](https://bun.sh), [Ytdlp](https://github.com/yt-dlp/yt-dlp/wiki/Installation#installing-the-release-binary) and [ffmpeg](https://ffmpeg.org/).
+2.  Clone it this repo `git clone https://github.com/sudospaes/rigel.git`.
+3.  Move to cloned directory.
+4.  Run `bun i` to install dependencies.
+5.  Create `.env` in the current directory and paste these in that.
 
 ```env
-ADMIN_ID="Admin User Id" // You can get it from @userinfobot
-ADMIN_UN="Amin Telegram Id" // Your username without @
-BOT_TOKEN="Your Bot Token"
+ADMIN_ID="" You can get it from @userinfobot.
+ADMIN_UN="" Your username without @ if you want.
+BOT_TOKEN="" Your bot token.
+API_ID="" Your API id, get it from my.telegram.org.
+API_HASH="" Your API hash, get it from my.telegram.org.
+CHANNEL_ID="" Your channel id for achivtion, You can get it from @username_to_id_bot.
+CAPTION="" Bot messages caption.
 ```
 
-7. Run `bun run init` and `bun start`
+7. Run `bun run init` to initialize database for the first time.
+8. Run `bun start` and insert your telegram account infomation.
+9. Done! if everything is correct, you should see "Bot is running...".
+
+## How to update
+
+1. Make stop bot
+2. Move to cloned directory.
+3. Run:
+
+```bash
+git fetch origin
+git merge origin/main
+git pull origin main
+
+```

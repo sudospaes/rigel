@@ -38,3 +38,4 @@ prisma/migrations
 database.db
 database.db-journal
 downloads
+session
