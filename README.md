@@ -58,7 +58,9 @@ CAPTION="" Bot messages caption.
 ```bash
 git fetch origin
 git merge origin/main
+git restore bun.lock
 git pull origin main
+bun i
 bun run init new_update
 
 ```
