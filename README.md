@@ -45,7 +45,7 @@ CAPTION="" Bot messages caption.
 ```
 
 6. Create a private or public channel and add your bot to that.
-7. Run `bun run init` to initialize database for the first time.
+7. Run `bun run init first_init` to initialize database for the first time.
 8. Run `bun start` and insert your telegram account infomation.
 9. Done! if everything is correct, you should see "Bot is running...".
 
@@ -59,5 +59,6 @@ CAPTION="" Bot messages caption.
 git fetch origin
 git merge origin/main
 git pull origin main
+bun run init new_update
 
 ```
