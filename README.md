@@ -51,9 +51,9 @@ CAPTION="" Bot messages caption.
 
 ## How to update
 
-1. Make stop bot
+1. Stop bot
 2. Move to cloned directory.
-3. Run:
+3. Run these commands:
 
 ```bash
 git fetch origin
