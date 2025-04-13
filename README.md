@@ -44,6 +44,7 @@ CHANNEL_ID="" Your channel id for achivtion, You can get it from @username_to_id
 CAPTION="" Bot messages caption.
 ```
 
+6. Create a private or public channel and add your bot to that.
 7. Run `bun run init` to initialize database for the first time.
 8. Run `bun start` and insert your telegram account infomation.
 9. Done! if everything is correct, you should see "Bot is running...".
