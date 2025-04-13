@@ -22,7 +22,7 @@ export async function getMetadata(filePath: string): Promise<VideoMetadata> {
 
 export async function getThumbnail(filePath: string): Promise<string> {
   const uuid = Bun.randomUUIDv7();
-  const thumbPath = join(rootPath(), "downloads", "thumbnails", `${uuid}.jpg`);
+  const thumbPath = join(rootPath(), "thumbnails", `${uuid}.jpg`);
   return new Promise((resolve, reject) => {
     ffmpeg(filePath)
       .thumbnail({
