@@ -45,7 +45,7 @@ CAPTION="" Bot messages caption.
 ```
 
 6. Create a private or public channel and add your bot to that.
-7. Create `ytcookies` in the current directory and put your youtube cookies on that.
+7. Create `ytcookies.txt` in the current directory and put your youtube cookies on that.
 8. Run `bun run init first_init` to initialize database for the first time.
 9. Run `bun start` and insert your telegram account infomation.
 10. Done! if everything is correct, you should see "Bot is running...".
