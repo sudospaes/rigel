@@ -28,7 +28,7 @@ Just send your media link to bot and get your content 😃. Of course, the admin
 
 ## Setup and deploy
 
-1.  Install [Bun](https://bun.sh), [Ytdlp](https://github.com/yt-dlp/yt-dlp/wiki/Installation#installing-the-release-binary) and [ffmpeg](https://ffmpeg.org/).
+1.  Install [Bun](https://bun.sh), [Ytdlp](https://github.com/yt-dlp/yt-dlp/wiki/Installation#installing-the-release-binary), [ffmpeg](https://ffmpeg.org/) and [aria2](https://github.com/aria2/aria2).
 2.  Clone it this repo `git clone https://github.com/sudospaes/rigel.git`.
 3.  Move to cloned directory.
 4.  Run `bun i` to install dependencies.
@@ -45,9 +45,10 @@ CAPTION="" Bot messages caption.
 ```
 
 6. Create a private or public channel and add your bot to that.
-7. Run `bun run init first_init` to initialize database for the first time.
-8. Run `bun start` and insert your telegram account infomation.
-9. Done! if everything is correct, you should see "Bot is running...".
+7. Create `ytcookies` in the current directory and put your youtube cookies on that.
+8. Run `bun run init first_init` to initialize database for the first time.
+9. Run `bun start` and insert your telegram account infomation.
+10. Done! if everything is correct, you should see "Bot is running...".
 
 ## How to update
 
