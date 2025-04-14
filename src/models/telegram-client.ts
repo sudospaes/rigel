@@ -55,6 +55,7 @@ class TGClient {
       const file = await this.client.sendFile(channelId, {
         file: filePath,
         caption,
+        workers: 2,
       });
       return {
         msgId: file.id,
@@ -73,6 +74,7 @@ class TGClient {
         file: filePath,
         caption,
         thumb,
+        workers: 2,
         attributes: [
           new Api.DocumentAttributeVideo({
             duration: metadata.duration,
