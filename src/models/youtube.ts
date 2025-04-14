@@ -53,7 +53,7 @@ class Youtube extends Ytdlp {
     const outPath = join(
       rootPath(),
       "downloads",
-      `%(title)s-%(format_id)s.%(ext)s`
+      `%(title).50s-%(format_id)s.%(ext)s`
     );
     this.status = "ACTIVE";
     const p = spawn(
@@ -87,7 +87,7 @@ class Youtube extends Ytdlp {
   }
 
   async downloadAudio() {
-    const outPath = join(rootPath(), "downloads", `%(title)s.%(ext)s`);
+    const outPath = join(rootPath(), "downloads", `%(title).50s.%(ext)s`);
     this.status = "ACTIVE";
     const p = spawn(
       [
