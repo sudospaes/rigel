@@ -5,6 +5,8 @@ import { join } from "path";
 
 import { rootPath, sanitizePath } from "helpers/utils";
 
+const cookies = join(rootPath(), "ytcookies.txt");
+
 class YTMusic extends Ytdlp {
   async downloadAudio() {
     const outPath = join(rootPath(), "downloads", `%(title)s.%(ext)s`);
@@ -12,6 +14,8 @@ class YTMusic extends Ytdlp {
     const p = spawn(
       [
         "yt-dlp",
+        "--cookies",
+        cookies,
         "--extract-audio",
         "--audio-format",
         "mp3",
