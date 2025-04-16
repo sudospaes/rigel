@@ -20,16 +20,19 @@ export async function youtubeFormatsList(ctx: UserContext, url: string) {
         .row();
     });
     keyboard.text("Give me this as mp3", "format_mp3").row();
-    await ctx.api.deleteMessage(msg.chat.id, msg.message_id);
-    await ctx.reply(
+    ctx.api.deleteMessage(msg.chat.id, msg.message_id);
+    ctx.reply(
       `⚠️ The final file may be slightly larger due to the addition of audio.`,
       {
         reply_markup: keyboard,
+        reply_parameters: { chat_id: ctx.chatId, message_id: ctx.msgId! },
       }
     );
   } catch (error) {
     console.log(error);
-    return ctx.reply("There is a problem getting link information. 👀");
+    return ctx.reply("There is a problem getting link information. 👀", {
+      reply_parameters: { chat_id: ctx.chatId, message_id: ctx.msgId! },
+    });
   }
 }
 
@@ -48,34 +51,66 @@ async function handleYoutube(ctx: UserContext, url: string, format: string) {
     waitList.set(key, ytdlp);
   }
 
-  const msg = await ctx.reply("⬇️ Downloading...");
-
   try {
+    const msg = await ctx.reply("⬇️ Downloading on the server...", {
+      reply_parameters: { message_id: ctx.msgId! },
+    });
+
     if (ytdlp.status == "INACTIVE") {
       if (format == "mp3") await ytdlp.downloadAudio();
       else await ytdlp.downloadVideo(format);
     } else {
       await waitForDownload(ytdlp);
       await waitForArchiving(ytdlp);
+      ctx.api.editMessageText(
+        ctx.chatId!,
+        msg.message_id,
+        "⬆️ Uploading to Telegram..."
+      );
+      ctx.api.sendChatAction(ctx.chatId!, "upload_document");
       await sendFromArchive(ctx, url);
+      ctx.api.deleteMessage(msg.chat.id, msg.message_id);
       return;
     }
 
     if (format == "mp3") {
-      await ctx.api.sendChatAction(ctx.chatId!, "upload_document");
+      ctx.api.editMessageText(
+        ctx.chatId!,
+        msg.message_id,
+        "⬆️ Uploading to Telegram..."
+      );
+
       const file = await client.sendFile(ytdlp.filePath);
-      await ctx.api.copyMessage(ctx.chatId!, file.chatId, file.msgId);
+      ctx.api.sendChatAction(ctx.chatId!, "upload_document");
+
+      ctx.api.copyMessage(ctx.chatId!, file.chatId, file.msgId, {
+        reply_parameters: { message_id: ctx.msgId! },
+      });
+
       await addToArchive(key, file);
     } else {
-      await ctx.api.sendChatAction(ctx.chatId!, "upload_video");
+      ctx.api.editMessageText(
+        ctx.chatId!,
+        msg.message_id,
+        "⬆️ Uploading to Telegram..."
+      );
+
       const file = await client.sendVideo(ytdlp.filePath);
-      await ctx.api.copyMessage(ctx.chatId!, file.chatId, file.msgId);
+      ctx.api.sendChatAction(ctx.chatId!, "upload_video");
+
+      ctx.api.copyMessage(ctx.chatId!, file.chatId, file.msgId, {
+        reply_parameters: { message_id: ctx.msgId! },
+      });
+
       await addToArchive(key, file);
     }
-    await ctx.api.deleteMessage(msg.chat.id, msg.message_id);
+    ctx.api.deleteMessage(msg.chat.id, msg.message_id);
   } catch (error) {
     console.log(error);
-    return ctx.reply("An internal operation has been failed. 😭");
+
+    return ctx.reply("An internal operation has been failed.", {
+      reply_parameters: { message_id: ctx.msgId! },
+    });
   } finally {
     await ytdlp.clean();
   }

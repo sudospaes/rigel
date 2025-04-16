@@ -11,51 +11,53 @@ import handleSoundCloud from "./services/soundcloud";
 
 import { youtubeFormatsList } from "middlewares/services/youtube";
 
+import { runDetached } from "helpers/utils";
+
 const downloader = new Composer<UserContext>();
 
-downloader.use(async (ctx, next) => {
+downloader.use((ctx, next) => {
   const media = ctx.session.user?.media!;
   switch (media.type) {
     case "pin":
-      await handlePinterest(ctx, media.url);
+      runDetached(() => handlePinterest(ctx, media.url));
       break;
 
     case "ytm":
-      await handleYTMusic(ctx, media.url);
+      runDetached(() => handleYTMusic(ctx, media.url));
       break;
 
     case "tt":
-      await handleTiktok(ctx, media.url);
+      runDetached(() => handleTiktok(ctx, media.url));
       break;
 
     case "ig":
-      await handleInstagram(ctx, media.url);
+      runDetached(() => handleInstagram(ctx, media.url));
       break;
 
     case "sc":
-      await handleSoundCloud(ctx, media.url);
+      runDetached(() => handleSoundCloud(ctx, media.url));
       break;
 
     case "yt":
       if (ctx.callbackQuery) {
         return next();
       }
-      await youtubeFormatsList(ctx, media.url);
+      runDetached(() => youtubeFormatsList(ctx, media.url));
       break;
   }
 });
 
-downloader.callbackQuery(/^format_(\d+)$/, async (ctx) => {
+downloader.callbackQuery(/^format_(\d+)$/, (ctx) => {
   const url = ctx.session.user!.media?.url!;
   const format = ctx.match[1];
-  await ctx.deleteMessage();
-  await handleYoutube(ctx, url, format);
+  ctx.deleteMessage();
+  runDetached(() => handleYoutube(ctx, url, format));
 });
 
-downloader.callbackQuery(/^format_mp3$/, async (ctx) => {
+downloader.callbackQuery(/^format_mp3$/, (ctx) => {
   const url = ctx.session.user!.media?.url!;
-  await ctx.deleteMessage();
-  await handleYoutube(ctx, url, "mp3");
+  ctx.deleteMessage();
+  runDetached(() => handleYoutube(ctx, url, "mp3"));
 });
 
 export default downloader;

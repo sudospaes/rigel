@@ -5,18 +5,20 @@ import type { FileMessage } from "types/interface";
 
 export async function sendFromArchive(ctx: UserContext, url: string) {
   const archive = await db.archive.findUnique({ where: { key: url } });
-  if (archive)
-    try {
-      const msg = await ctx.api.copyMessage(
-        ctx.chatId!,
-        archive.chatId,
-        +archive.msgId
-      );
-      return msg;
-    } catch (error) {
-      await db.archive.delete({ where: { key: archive.key } });
-    }
-  return null;
+  if (!archive) return null;
+
+  try {
+    const msg = await ctx.api.copyMessage(
+      ctx.chatId!,
+      archive.chatId,
+      +archive.msgId,
+      { reply_parameters: { chat_id: ctx.chatId!, message_id: ctx.msgId! } }
+    );
+    return msg;
+  } catch (error) {
+    await db.archive.delete({ where: { key: archive.key } });
+    return null;
+  }
 }
 
 export async function addToArchive(url: string, file: FileMessage) {

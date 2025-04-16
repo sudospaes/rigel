@@ -18,25 +18,48 @@ async function handleYTMusic(ctx: UserContext, url: string) {
     ytdlp = new YTMusic(url);
     waitList.set(url, ytdlp);
   }
-
-  const msg = await ctx.reply("⬇️ Downloading...");
-
   try {
+    const msg = await ctx.reply("⬇️ Downloading on the server...", {
+      reply_parameters: { message_id: ctx.msgId! },
+    });
+
     if (ytdlp.status == "INACTIVE") await ytdlp.downloadAudio();
     else {
       await waitForDownload(ytdlp);
       await waitForArchiving(ytdlp);
+      ctx.api.editMessageText(
+        ctx.chatId!,
+        msg.message_id,
+        "⬆️ Uploading to Telegram..."
+      );
+      ctx.api.sendChatAction(ctx.chatId!, "upload_document");
       await sendFromArchive(ctx, url);
+      ctx.api.deleteMessage(msg.chat.id, msg.message_id);
       return;
     }
-    await ctx.api.sendChatAction(ctx.chatId!, "upload_document");
+
+    ctx.api.editMessageText(
+      ctx.chatId!,
+      msg.message_id,
+      "⬆️ Uploading to Telegram..."
+    );
+
     const file = await client.sendFile(ytdlp.filePath);
-    await ctx.api.copyMessage(ctx.chatId!, file.chatId, file.msgId);
-    await ctx.api.deleteMessage(msg.chat.id, msg.message_id);
+    ctx.api.sendChatAction(ctx.chatId!, "upload_document");
+
+    ctx.api.copyMessage(ctx.chatId!, file.chatId, file.msgId, {
+      reply_parameters: { message_id: ctx.msgId! },
+    });
+
+    ctx.api.deleteMessage(msg.chat.id, msg.message_id);
+
     await addToArchive(url, file);
   } catch (error) {
     console.log(error);
-    return ctx.reply("An internal operation has been failed. 😭");
+
+    return ctx.reply("An internal operation has been failed.", {
+      reply_parameters: { message_id: ctx.msgId! },
+    });
   } finally {
     await ytdlp.clean();
   }

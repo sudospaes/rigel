@@ -19,25 +19,48 @@ async function handleTiktok(ctx: UserContext, url: string) {
     waitList.set(url, ytdlp);
   }
 
-  const msg = await ctx.reply("⬇️ Downloading...");
-
   try {
+    const msg = await ctx.reply("⬇️ Downloading on the server...", {
+      reply_parameters: { message_id: ctx.msgId! },
+    });
+
     if (ytdlp.status == "INACTIVE") await ytdlp.downloadVideo();
     else {
       await waitForDownload(ytdlp);
       await waitForArchiving(ytdlp);
+      ctx.api.editMessageText(
+        ctx.chatId!,
+        msg.message_id,
+        "⬆️ Uploading to Telegram..."
+      );
+      ctx.api.sendChatAction(ctx.chatId!, "upload_video");
       await sendFromArchive(ctx, url);
+      ctx.api.deleteMessage(msg.chat.id, msg.message_id);
       return;
     }
 
-    await ctx.api.sendChatAction(ctx.chatId!, "upload_video");
+    ctx.api.editMessageText(
+      ctx.chatId!,
+      msg.message_id,
+      "⬆️ Uploading to Telegram..."
+    );
+
     const file = await client.sendVideo(ytdlp.filePath);
-    await ctx.api.copyMessage(ctx.chatId!, file.chatId, file.msgId);
-    await ctx.api.deleteMessage(msg.chat.id, msg.message_id);
+    ctx.api.sendChatAction(ctx.chatId!, "upload_video");
+
+    ctx.api.copyMessage(ctx.chatId!, file.chatId, file.msgId, {
+      reply_parameters: { message_id: ctx.msgId! },
+    });
+
+    ctx.api.deleteMessage(msg.chat.id, msg.message_id);
+
     await addToArchive(url, file);
   } catch (error) {
     console.log(error);
-    return ctx.reply("Download operation has been failed. 😭");
+
+    return ctx.reply("An internal operation has been failed.", {
+      reply_parameters: { message_id: ctx.msgId! },
+    });
   } finally {
     await ytdlp.clean();
   }
