@@ -47,17 +47,11 @@ downloader.use((ctx, next) => {
   }
 });
 
-downloader.callbackQuery(/^format_(\d+)$/, (ctx) => {
+downloader.on("callback_query:data", (ctx) => {
   const url = ctx.session.user!.media?.url!;
-  const format = ctx.match[1];
+  const data = JSON.parse(ctx.callbackQuery.data!);
   ctx.deleteMessage();
-  runDetached(() => handleYoutube(ctx, url, format));
-});
-
-downloader.callbackQuery(/^format_mp3$/, (ctx) => {
-  const url = ctx.session.user!.media?.url!;
-  ctx.deleteMessage();
-  runDetached(() => handleYoutube(ctx, url, "mp3"));
+  runDetached(() => handleYoutube(ctx, url, data.format, data.msgId));
 });
 
 export default downloader;

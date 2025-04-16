@@ -10,36 +10,51 @@ import client from "client";
 
 export async function youtubeFormatsList(ctx: UserContext, url: string) {
   const ytdlp = new Youtube(url);
-  const msg = await ctx.reply("🔎 Get information...");
+  const msg = await ctx.reply("🔎 Get information...", {
+    reply_parameters: { message_id: ctx.msgId! },
+  });
   try {
     const formats = await ytdlp.formats();
     const keyboard = new InlineKeyboard();
     formats.forEach((format) => {
       keyboard
-        .text(`${format.quality} - ~${format.filesize}`, `format_${format.id}`)
+        .text(
+          `${format.quality} - ~${format.filesize}`,
+          JSON.stringify({ format: format.id, msgId: ctx.message?.message_id })
+        )
         .row();
     });
-    keyboard.text("Give me this as mp3", "format_mp3").row();
+    keyboard
+      .text(
+        "Give me this as mp3",
+        JSON.stringify({ format: "mp3", msgId: ctx.message?.message_id })
+      )
+      .row();
     ctx.api.deleteMessage(msg.chat.id, msg.message_id);
     ctx.reply(
       `⚠️ The final file may be slightly larger due to the addition of audio.`,
       {
         reply_markup: keyboard,
-        reply_parameters: { chat_id: ctx.chatId, message_id: ctx.msgId! },
+        reply_parameters: { message_id: ctx.msgId! },
       }
     );
   } catch (error) {
     console.log(error);
     return ctx.reply("There is a problem getting link information. 👀", {
-      reply_parameters: { chat_id: ctx.chatId, message_id: ctx.msgId! },
+      reply_parameters: { message_id: ctx.msgId! },
     });
   }
 }
 
-async function handleYoutube(ctx: UserContext, url: string, format: string) {
+async function handleYoutube(
+  ctx: UserContext,
+  url: string,
+  format: string,
+  msgId: string
+) {
   const key = `${url}|${format}`;
 
-  const result = await sendFromArchive(ctx, key);
+  const result = await sendFromArchive(ctx, key, msgId);
   if (result) return;
 
   let ytdlp: Youtube;
@@ -53,7 +68,7 @@ async function handleYoutube(ctx: UserContext, url: string, format: string) {
 
   try {
     const msg = await ctx.reply("⬇️ Downloading on the server...", {
-      reply_parameters: { message_id: ctx.msgId! },
+      reply_parameters: { message_id: +msgId },
     });
 
     if (ytdlp.status == "INACTIVE") {
@@ -68,7 +83,7 @@ async function handleYoutube(ctx: UserContext, url: string, format: string) {
         "⬆️ Uploading to Telegram..."
       );
       ctx.api.sendChatAction(ctx.chatId!, "upload_document");
-      await sendFromArchive(ctx, url);
+      await sendFromArchive(ctx, url, msgId);
       ctx.api.deleteMessage(msg.chat.id, msg.message_id);
       return;
     }
@@ -84,7 +99,7 @@ async function handleYoutube(ctx: UserContext, url: string, format: string) {
       ctx.api.sendChatAction(ctx.chatId!, "upload_document");
 
       ctx.api.copyMessage(ctx.chatId!, file.chatId, file.msgId, {
-        reply_parameters: { message_id: ctx.msgId! },
+        reply_parameters: { message_id: +msgId },
       });
 
       await addToArchive(key, file);
@@ -99,7 +114,7 @@ async function handleYoutube(ctx: UserContext, url: string, format: string) {
       ctx.api.sendChatAction(ctx.chatId!, "upload_video");
 
       ctx.api.copyMessage(ctx.chatId!, file.chatId, file.msgId, {
-        reply_parameters: { message_id: ctx.msgId! },
+        reply_parameters: { message_id: +msgId },
       });
 
       await addToArchive(key, file);
@@ -109,7 +124,7 @@ async function handleYoutube(ctx: UserContext, url: string, format: string) {
     console.log(error);
 
     return ctx.reply("An internal operation has been failed.", {
-      reply_parameters: { message_id: ctx.msgId! },
+      reply_parameters: { message_id: +msgId },
     });
   } finally {
     await ytdlp.clean();

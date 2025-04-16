@@ -3,8 +3,12 @@ import db from "database";
 import type { UserContext } from "types/type";
 import type { FileMessage } from "types/interface";
 
-export async function sendFromArchive(ctx: UserContext, url: string) {
-  const archive = await db.archive.findUnique({ where: { key: url } });
+export async function sendFromArchive(
+  ctx: UserContext,
+  key: string,
+  msgId?: string
+) {
+  const archive = await db.archive.findUnique({ where: { key } });
   if (!archive) return null;
 
   try {
@@ -12,7 +16,9 @@ export async function sendFromArchive(ctx: UserContext, url: string) {
       ctx.chatId!,
       archive.chatId,
       +archive.msgId,
-      { reply_parameters: { chat_id: ctx.chatId!, message_id: ctx.msgId! } }
+      {
+        reply_parameters: { message_id: msgId ? +msgId : ctx.msgId! },
+      }
     );
     return msg;
   } catch (error) {
