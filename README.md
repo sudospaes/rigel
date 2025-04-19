@@ -40,7 +40,7 @@ ADMIN_ID="" # You can get it from @userinfobot.
 ADMIN_UN="" # Your username without @ if you want.
 BOT_TOKEN="" # Your bot token.
 LOCAL_API="" # Your telegram-bot-api container address
-CAPTION="" Bot messages caption.
+CAPTION="" # Bot messages caption.
 ```
 
 7. Create `ytcookies.txt` in the current directory and put your youtube cookies on that.
