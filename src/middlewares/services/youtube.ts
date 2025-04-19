@@ -95,7 +95,7 @@ async function handleYoutube(
       );
 
       const file = await ctx.replyWithAudio(new InputFile(ytdlp.filePath), {
-        reply_parameters: { message_id: ctx.msgId! },
+        reply_parameters: { message_id: +msgId },
         caption,
       });
 
@@ -111,7 +111,7 @@ async function handleYoutube(
       );
 
       const file = await ctx.replyWithVideo(new InputFile(ytdlp.filePath), {
-        reply_parameters: { message_id: ctx.msgId! },
+        reply_parameters: { message_id: +msgId },
         caption,
       });
 
