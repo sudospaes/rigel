@@ -5,6 +5,8 @@ import type { UserContext } from "types/type";
 import Youtube from "models/youtube";
 import { waitList, waitForDownload, waitForArchiving } from "helpers/ytdlp";
 import { sendFromArchive, addToArchive } from "helpers/archive";
+import { getMetadata, getThumbnail } from "helpers/ffmpeg";
+import { removeFile } from "helpers/utils";
 
 const caption = Bun.env.CAPTION as string;
 
@@ -110,10 +112,20 @@ async function handleYoutube(
         "⬆️ Uploading to Telegram..."
       );
 
+      const metadata = await getMetadata(ytdlp.filePath);
+      const thumbnail = await getThumbnail(ytdlp.filePath);
+
       const file = await ctx.replyWithVideo(new InputFile(ytdlp.filePath), {
         reply_parameters: { message_id: +msgId },
+        duration: metadata.duration,
+        height: metadata.height,
+        width: metadata.width,
+        supports_streaming: true,
+        thumbnail: new InputFile(thumbnail),
         caption,
       });
+
+      await removeFile(thumbnail);
 
       await addToArchive(url, {
         chatId: file.chat.id.toString(),

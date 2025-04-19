@@ -5,6 +5,7 @@
   "license": "BSD-3-Clause",
   "devDependencies": {
     "@types/bun": "latest",
+    "@types/fluent-ffmpeg": "^2.1.27",
     "prisma": "^6.6.0"
   },
   "peerDependencies": {
@@ -13,6 +14,7 @@
   "dependencies": {
     "@grammyjs/storage-prisma": "^2.5.1",
     "@prisma/client": "^6.6.0",
+    "fluent-ffmpeg": "^2.1.3",
     "grammy": "^1.35.1"
   },
   "scripts": {

@@ -15,3 +15,10 @@ export function runDetached(fn: () => Promise<any>) {
     }
   })();
 }
+
+export async function removeFile(path: string) {
+  const file = Bun.file(path);
+  if (await file.exists()) {
+    await file.delete();
+  }
+}

@@ -28,7 +28,7 @@ Just send your media link to bot and get your content 😃. Of course, the admin
 
 ## Setup and deploy
 
-1.  Install [Bun](https://bun.sh), [Ytdlp](https://github.com/yt-dlp/yt-dlp/wiki/Installation#installing-the-release-binary) and [aria2](https://github.com/aria2/aria2).
+1.  Install [Bun](https://bun.sh), [Ytdlp](https://github.com/yt-dlp/yt-dlp/wiki/Installation#installing-the-release-binary), [ffmpeg](https://ffmpeg.org/) and [aria2](https://github.com/aria2/aria2).
 2.  Install [Docker](https://docs.docker.com/engine/install/) and run [aiogram/telegram-bot-api](https://hub.docker.com/r/aiogram/telegram-bot-api) image as a container.
 3.  Clone it this repo `git clone https://github.com/sudospaes/rigel.git`.
 4.  Move to cloned directory.
