@@ -10,8 +10,9 @@ import checker from "middlewares/checker";
 import downloader from "middlewares/downloader";
 
 const token = Bun.env.BOT_TOKEN as string;
+const localApi = Bun.env.LOCAL_API as string;
 
-const bot = new Bot<UserContext>(token);
+const bot = new Bot<UserContext>(token, { client: { apiRoot: localApi } });
 
 bot.use(auth);
 bot.use(commands);

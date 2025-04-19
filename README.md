@@ -28,23 +28,21 @@ Just send your media link to bot and get your content 😃. Of course, the admin
 
 ## Setup and deploy
 
-1.  Install [Bun](https://bun.sh), [Ytdlp](https://github.com/yt-dlp/yt-dlp/wiki/Installation#installing-the-release-binary), [ffmpeg](https://ffmpeg.org/) and [aria2](https://github.com/aria2/aria2).
-2.  Clone it this repo `git clone https://github.com/sudospaes/rigel.git`.
-3.  Move to cloned directory.
-4.  Run `bun i` to install dependencies.
-5.  Create `.env` in the current directory and paste these in that.
+1.  Install [Bun](https://bun.sh), [Ytdlp](https://github.com/yt-dlp/yt-dlp/wiki/Installation#installing-the-release-binary) and [aria2](https://github.com/aria2/aria2).
+2.  Install [Docker](https://docs.docker.com/engine/install/) and run [aiogram/telegram-bot-api](https://hub.docker.com/r/aiogram/telegram-bot-api) image as a container.
+3.  Clone it this repo `git clone https://github.com/sudospaes/rigel.git`.
+4.  Move to cloned directory.
+5.  Run `bun i` to install dependencies.
+6.  Create `.env` in the current directory and paste these in that.
 
 ```env
-ADMIN_ID="" You can get it from @userinfobot.
-ADMIN_UN="" Your username without @ if you want.
-BOT_TOKEN="" Your bot token.
-API_ID="" Your API id, get it from my.telegram.org.
-API_HASH="" Your API hash, get it from my.telegram.org.
-CHANNEL_ID="" Your channel id for achivtion, You can get it from @username_to_id_bot.
+ADMIN_ID="" # You can get it from @userinfobot.
+ADMIN_UN="" # Your username without @ if you want.
+BOT_TOKEN="" # Your bot token.
+LOCAL_API="" # Your telegram-bot-api container address
 CAPTION="" Bot messages caption.
 ```
 
-6. Create a private or public channel and add your bot to that.
 7. Create `ytcookies.txt` in the current directory and put your youtube cookies on that.
 8. Run `bun run init first_init` to initialize database for the first time.
 9. Run `bun start` and insert your telegram account infomation.

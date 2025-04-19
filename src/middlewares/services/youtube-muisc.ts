@@ -1,10 +1,12 @@
+import { InputFile } from "grammy";
+
 import type { UserContext } from "types/type";
 
 import YTMusic from "models/youtube-music";
 import { waitList, waitForDownload, waitForArchiving } from "helpers/ytdlp";
 import { sendFromArchive, addToArchive } from "helpers/archive";
 
-import client from "client";
+const caption = Bun.env.CAPTION as string;
 
 async function handleYTMusic(ctx: UserContext, url: string) {
   const archive = await sendFromArchive(ctx, url);
@@ -32,7 +34,6 @@ async function handleYTMusic(ctx: UserContext, url: string) {
         msg.message_id,
         "⬆️ Uploading to Telegram..."
       );
-      ctx.api.sendChatAction(ctx.chatId!, "upload_document");
       await sendFromArchive(ctx, url);
       ctx.api.deleteMessage(msg.chat.id, msg.message_id);
       return;
@@ -44,16 +45,17 @@ async function handleYTMusic(ctx: UserContext, url: string) {
       "⬆️ Uploading to Telegram..."
     );
 
-    const file = await client.sendFile(ytdlp.filePath);
-    ctx.api.sendChatAction(ctx.chatId!, "upload_document");
-
-    ctx.api.copyMessage(ctx.chatId!, file.chatId, file.msgId, {
+    const file = await ctx.replyWithAudio(new InputFile(ytdlp.filePath), {
       reply_parameters: { message_id: ctx.msgId! },
+      caption,
     });
 
     ctx.api.deleteMessage(msg.chat.id, msg.message_id);
 
-    await addToArchive(url, file);
+    await addToArchive(url, {
+      chatId: file.chat.id.toString(),
+      msgId: file.message_id,
+    });
   } catch (error) {
     console.log(error);
 

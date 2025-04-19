@@ -1,4 +1,4 @@
-import { InlineKeyboard } from "grammy";
+import { InlineKeyboard, InputFile } from "grammy";
 
 import type { UserContext } from "types/type";
 
@@ -6,7 +6,7 @@ import Youtube from "models/youtube";
 import { waitList, waitForDownload, waitForArchiving } from "helpers/ytdlp";
 import { sendFromArchive, addToArchive } from "helpers/archive";
 
-import client from "client";
+const caption = Bun.env.CAPTION as string;
 
 export async function youtubeFormatsList(ctx: UserContext, url: string) {
   const ytdlp = new Youtube(url);
@@ -82,7 +82,6 @@ async function handleYoutube(
         msg.message_id,
         "⬆️ Uploading to Telegram..."
       );
-      ctx.api.sendChatAction(ctx.chatId!, "upload_document");
       await sendFromArchive(ctx, url, msgId);
       ctx.api.deleteMessage(msg.chat.id, msg.message_id);
       return;
@@ -95,14 +94,15 @@ async function handleYoutube(
         "⬆️ Uploading to Telegram..."
       );
 
-      const file = await client.sendFile(ytdlp.filePath);
-      ctx.api.sendChatAction(ctx.chatId!, "upload_document");
-
-      ctx.api.copyMessage(ctx.chatId!, file.chatId, file.msgId, {
-        reply_parameters: { message_id: +msgId },
+      const file = await ctx.replyWithAudio(new InputFile(ytdlp.filePath), {
+        reply_parameters: { message_id: ctx.msgId! },
+        caption,
       });
 
-      await addToArchive(key, file);
+      await addToArchive(url, {
+        chatId: file.chat.id.toString(),
+        msgId: file.message_id,
+      });
     } else {
       ctx.api.editMessageText(
         ctx.chatId!,
@@ -110,15 +110,17 @@ async function handleYoutube(
         "⬆️ Uploading to Telegram..."
       );
 
-      const file = await client.sendVideo(ytdlp.filePath);
-      ctx.api.sendChatAction(ctx.chatId!, "upload_video");
-
-      ctx.api.copyMessage(ctx.chatId!, file.chatId, file.msgId, {
-        reply_parameters: { message_id: +msgId },
+      const file = await ctx.replyWithVideo(new InputFile(ytdlp.filePath), {
+        reply_parameters: { message_id: ctx.msgId! },
+        caption,
       });
 
-      await addToArchive(key, file);
+      await addToArchive(url, {
+        chatId: file.chat.id.toString(),
+        msgId: file.message_id,
+      });
     }
+
     ctx.api.deleteMessage(msg.chat.id, msg.message_id);
   } catch (error) {
     console.log(error);
