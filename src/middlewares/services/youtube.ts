@@ -101,7 +101,7 @@ async function handleYoutube(
         caption,
       });
 
-      await addToArchive(url, {
+      await addToArchive(key, {
         chatId: file.chat.id.toString(),
         msgId: file.message_id,
       });
@@ -127,7 +127,7 @@ async function handleYoutube(
 
       await removeFile(thumbnail);
 
-      await addToArchive(url, {
+      await addToArchive(key, {
         chatId: file.chat.id.toString(),
         msgId: file.message_id,
       });
