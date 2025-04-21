@@ -17,13 +17,17 @@ it support currently:
     ☁️ SoundCloud`);
 });
 
-commands.command("clean", async (ctx) => {
+commands.use((ctx, next) => {
   const user = ctx.session.user;
   if (user?.role != "ADMIN") {
     return ctx.reply("Sorry you aren't admin.");
   }
+  next();
+});
+
+commands.command("clean", async (ctx) => {
   try {
-    await db.user.deleteMany({ where: { id: { not: user.id } } });
+    await db.user.deleteMany({ where: { role: { not: "ADMIN" } } });
     await db.session.deleteMany();
     return ctx.reply("Users cleantion has been successful.");
   } catch (error) {
@@ -33,13 +37,13 @@ commands.command("clean", async (ctx) => {
 });
 
 commands.command("add", async (ctx) => {
-  const user = ctx.session.user;
-  if (user?.role != "ADMIN") {
-    return ctx.reply("Sorry you aren't admin.");
-  }
   const text = ctx.match.trim().match(/(\d+)\s+(\S+)/);
-  const id = text?.[1] as string;
+  const id = text?.[1];
   const username = text?.[2];
+
+  if (!id || !username) {
+    return ctx.reply("User id and user name is required.");
+  }
 
   const isUserExist = await db.user.findUnique({ where: { id } });
   if (isUserExist) {
@@ -47,9 +51,7 @@ commands.command("add", async (ctx) => {
   }
 
   try {
-    await db.user.create({
-      data: { id, username },
-    });
+    await db.user.create({ data: { id, username } });
     return ctx.reply(`${id} has been added to users list.`);
   } catch (error) {
     console.log(error);
@@ -58,10 +60,6 @@ commands.command("add", async (ctx) => {
 });
 
 commands.command("remove", async (ctx) => {
-  const user = ctx.session.user;
-  if (user?.role != "ADMIN") {
-    return ctx.reply("Sorry you aren't admin.");
-  }
   const id = ctx.match.trim();
   try {
     await db.user.delete({ where: { id } });
@@ -76,10 +74,6 @@ commands.command("remove", async (ctx) => {
 });
 
 commands.command("destroy", async (ctx) => {
-  const user = ctx.session.user;
-  if (user?.role != "ADMIN") {
-    return ctx.reply("Sorry you aren't admin.");
-  }
   try {
     await db.archive.deleteMany();
     return ctx.reply("Archive destroy has been successful.");
@@ -90,11 +84,7 @@ commands.command("destroy", async (ctx) => {
 });
 
 commands.command("users", async (ctx) => {
-  const user = ctx.session.user;
-  if (user?.role != "ADMIN") {
-    return ctx.reply("Sorry you aren't admin.");
-  }
-  const users = await db.user.findMany({ where: { id: { not: user.id } } });
+  const users = await db.user.findMany({ where: { role: { not: "ADMIN" } } });
   const body = `Users count: ${users.length}\n` + users.map((u) => `${u.id} ${u.username}`).join("\n");
   return ctx.reply(body);
 });
