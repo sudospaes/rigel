@@ -16,11 +16,13 @@ This bot supports concurrency, meaning that if multiple users request the same c
 
 ## Admin's Commands
 
-| Command | Example                                       | Description                    |
-| ------- | --------------------------------------------- | ------------------------------ |
-| /add    | /add 12345667 <-- (user id) name <-- (a name) | Add a user to can use bot      |
-| /remove | /remove 12345667 <-- (user id)                | Remove a user to can't use bot |
-| /users  | /users                                        | Show allowed users             |
+| Command  | Example                                       | Description                    |
+| -------- | --------------------------------------------- | ------------------------------ |
+| /users   | /users                                        | Show allowed users             |
+| /add     | /add 12345667 <-- (user id) name <-- (a name) | Add a user to can use bot      |
+| /remove  | /remove 12345667 <-- (user id)                | Remove a user to can't use bot |
+| /clean   | /clean                                        | Delete all allowed users       |
+| /destroy | /destroy                                      | Clearing the entire archive    |
 
 ## Usage
 
@@ -44,7 +46,7 @@ CAPTION="" # Bot messages caption.
 ```
 
 7. Create `ytcookies.txt` in the current directory and put your youtube cookies on that.
-8. Run `bun run init first_init` to initialize database for the first time.
+8. Run `bun run init --name first_init` to initialize database for the first time.
 9. Run `bun start` and insert your telegram account infomation.
 10. Done! if everything is correct, you should see "Bot is running...".
 
@@ -60,6 +62,6 @@ git merge origin/main
 git restore bun.lock
 git pull origin main
 bun i
-bun run init new_update
+bun run init --name new_update
 
 ```

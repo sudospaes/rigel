@@ -25,7 +25,7 @@ commands.command("clean", async (ctx) => {
   try {
     await db.user.deleteMany({ where: { id: { not: user.id } } });
     await db.session.deleteMany();
-    return ctx.reply("Users cleantion was successful.");
+    return ctx.reply("Users cleantion has been successful.");
   } catch (error) {
     console.log(error);
     return ctx.reply("I could not execute this command.");
@@ -75,15 +75,27 @@ commands.command("remove", async (ctx) => {
   }
 });
 
+commands.command("destroy", async (ctx) => {
+  const user = ctx.session.user;
+  if (user?.role != "ADMIN") {
+    return ctx.reply("Sorry you aren't admin.");
+  }
+  try {
+    await db.archive.deleteMany();
+    return ctx.reply("Archive destroy has been successful.");
+  } catch (error) {
+    console.log(error);
+    return ctx.reply("I could not execute this command.");
+  }
+});
+
 commands.command("users", async (ctx) => {
   const user = ctx.session.user;
   if (user?.role != "ADMIN") {
     return ctx.reply("Sorry you aren't admin.");
   }
   const users = await db.user.findMany({ where: { id: { not: user.id } } });
-  const body =
-    `Users count: ${users.length}\n` +
-    users.map((u) => `${u.id} ${u.username}`).join("\n");
+  const body = `Users count: ${users.length}\n` + users.map((u) => `${u.id} ${u.username}`).join("\n");
   return ctx.reply(body);
 });
 
