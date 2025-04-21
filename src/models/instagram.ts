@@ -18,6 +18,8 @@ class Instagram extends Ytdlp {
         "aria2c",
         "--downloader-args",
         "aria2c:-x 16 -k 1M",
+        "--postprocessor-args",
+        "-c:v libx264",
         this.url,
         "--quiet",
         "--exec",
