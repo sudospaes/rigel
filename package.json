@@ -20,6 +20,6 @@
   "scripts": {
     "start": "bun run src/app.ts",
     "dev": "bun --watch src/app.ts",
-    "init": "bunx prisma migrate dev --name"
+    "init": "bunx prisma migrate dev"
   }
 }
