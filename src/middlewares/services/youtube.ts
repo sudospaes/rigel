@@ -26,20 +26,12 @@ export async function youtubeFormatsList(ctx: UserContext, url: string) {
         )
         .row();
     });
-    keyboard
-      .text(
-        "Give me this as mp3",
-        JSON.stringify({ format: "mp3", msgId: ctx.message?.message_id })
-      )
-      .row();
+    keyboard.text("Give me this as mp3", JSON.stringify({ format: "mp3", msgId: ctx.message?.message_id })).row();
     ctx.api.deleteMessage(msg.chat.id, msg.message_id);
-    ctx.reply(
-      `⚠️ The final file may be slightly larger due to the addition of audio.`,
-      {
-        reply_markup: keyboard,
-        reply_parameters: { message_id: ctx.msgId! },
-      }
-    );
+    ctx.reply(`⚠️ The final file may be slightly larger due to the addition of audio.`, {
+      reply_markup: keyboard,
+      reply_parameters: { message_id: ctx.msgId! },
+    });
   } catch (error) {
     console.log(error);
     return ctx.reply("There is a problem getting link information. 👀", {
@@ -48,12 +40,7 @@ export async function youtubeFormatsList(ctx: UserContext, url: string) {
   }
 }
 
-async function handleYoutube(
-  ctx: UserContext,
-  url: string,
-  format: string,
-  msgId: string
-) {
+async function handleYoutube(ctx: UserContext, url: string, format: string, msgId: string) {
   const key = `${url}|${format}`;
 
   const result = await sendFromArchive(ctx, key, msgId);
@@ -79,22 +66,14 @@ async function handleYoutube(
     } else {
       await waitForDownload(ytdlp);
       await waitForArchiving(ytdlp);
-      ctx.api.editMessageText(
-        ctx.chatId!,
-        msg.message_id,
-        "⬆️ Uploading to Telegram..."
-      );
+      ctx.api.editMessageText(ctx.chatId!, msg.message_id, "⬆️ Uploading to Telegram...");
       await sendFromArchive(ctx, url, msgId);
       ctx.api.deleteMessage(msg.chat.id, msg.message_id);
       return;
     }
 
     if (format == "mp3") {
-      ctx.api.editMessageText(
-        ctx.chatId!,
-        msg.message_id,
-        "⬆️ Uploading to Telegram..."
-      );
+      ctx.api.editMessageText(ctx.chatId!, msg.message_id, "⬆️ Uploading to Telegram...");
 
       const file = await ctx.replyWithAudio(new InputFile(ytdlp.filePath), {
         reply_parameters: { message_id: +msgId },
@@ -106,20 +85,16 @@ async function handleYoutube(
         msgId: file.message_id,
       });
     } else {
-      ctx.api.editMessageText(
-        ctx.chatId!,
-        msg.message_id,
-        "⬆️ Uploading to Telegram..."
-      );
+      ctx.api.editMessageText(ctx.chatId!, msg.message_id, "⬆️ Uploading to Telegram...");
 
-      const metadata = await getMetadata(ytdlp.filePath);
-      const thumbnail = await getThumbnail(ytdlp.filePath);
+      const { duration, width, height } = await getMetadata(ytdlp.filePath);
+      const thumbnail = await getThumbnail(width, height, ytdlp.filePath);
 
       const file = await ctx.replyWithVideo(new InputFile(ytdlp.filePath), {
         reply_parameters: { message_id: +msgId },
-        duration: metadata.duration,
-        height: metadata.height,
-        width: metadata.width,
+        duration,
+        width,
+        height,
         supports_streaming: true,
         thumbnail: new InputFile(thumbnail),
         caption,

@@ -48,15 +48,15 @@ async function handlePinterest(ctx: UserContext, url: string) {
       "⬆️ Uploading to Telegram..."
     );
 
-    const metadata = await getMetadata(ytdlp.filePath);
-    const thumbnail = await getThumbnail(ytdlp.filePath);
+    const { duration, width, height } = await getMetadata(ytdlp.filePath);
+    const thumbnail = await getThumbnail(width, height, ytdlp.filePath);
 
     const file = await ctx.replyWithVideo(new InputFile(ytdlp.filePath), {
       reply_parameters: { message_id: ctx.msgId! },
-      duration: metadata.duration,
+      duration,
       supports_streaming: true,
-      height: metadata.height,
-      width: metadata.width,
+      width,
+      height,
       thumbnail: new InputFile(thumbnail),
       caption,
     });

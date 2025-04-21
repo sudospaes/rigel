@@ -20,7 +20,7 @@ export async function getMetadata(filePath: string): Promise<VideoMetadata> {
   });
 }
 
-export async function getThumbnail(filePath: string): Promise<string> {
+export async function getThumbnail(width: number, height: number, filePath: string): Promise<string> {
   const uuid = Bun.randomUUIDv7();
   const thumbPath = join(rootPath(), "thumbnails", `${uuid}.jpg`);
   return new Promise((resolve, reject) => {
@@ -28,7 +28,7 @@ export async function getThumbnail(filePath: string): Promise<string> {
       .thumbnail({
         count: 1,
         filename: `${uuid}.jpg`,
-        size: "320x320",
+        size: `${width}x${height}`,
         folder: join(rootPath(), "thumbnails"),
       })
       .on("end", () => {

@@ -29,21 +29,13 @@ async function handleYTMusic(ctx: UserContext, url: string) {
     else {
       await waitForDownload(ytdlp);
       await waitForArchiving(ytdlp);
-      ctx.api.editMessageText(
-        ctx.chatId!,
-        msg.message_id,
-        "⬆️ Uploading to Telegram..."
-      );
+      ctx.api.editMessageText(ctx.chatId!, msg.message_id, "⬆️ Uploading to Telegram...");
       await sendFromArchive(ctx, url);
       ctx.api.deleteMessage(msg.chat.id, msg.message_id);
       return;
     }
 
-    ctx.api.editMessageText(
-      ctx.chatId!,
-      msg.message_id,
-      "⬆️ Uploading to Telegram..."
-    );
+    ctx.api.editMessageText(ctx.chatId!, msg.message_id, "⬆️ Uploading to Telegram...");
 
     const file = await ctx.replyWithAudio(new InputFile(ytdlp.filePath), {
       reply_parameters: { message_id: ctx.msgId! },
