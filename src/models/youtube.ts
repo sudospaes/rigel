@@ -34,16 +34,8 @@ class Youtube extends Ytdlp {
       if (filesize !== "unknown") {
         filesizeInMB = parseFloat(filesize);
       }
-      if (
-        id &&
-        quality !== "unknown" &&
-        filesize !== "unknown" &&
-        filesizeInMB < 1500
-      ) {
-        if (
-          !qualitys.has(quality) ||
-          filesizeInMB < parseFloat(qualitys.get(quality)!.filesize)
-        ) {
+      if (id && quality !== "unknown" && filesize !== "unknown" && filesizeInMB < 1500) {
+        if (!qualitys.has(quality) || filesizeInMB < parseFloat(qualitys.get(quality)!.filesize)) {
           qualitys.set(quality, { id, quality, filesize });
         }
       }
@@ -52,11 +44,7 @@ class Youtube extends Ytdlp {
   }
 
   async downloadVideo(formatId: string) {
-    const outPath = join(
-      rootPath(),
-      "downloads",
-      `%(title).50s-%(format_id)s.%(ext)s`
-    );
+    const outPath = join(rootPath(), "downloads", `%(title).50s-%(format_id)s.%(ext)s`);
     this.status = "ACTIVE";
     const p = spawn(
       [

@@ -12,8 +12,6 @@ class Pinterest extends Ytdlp {
     const p = spawn(
       [
         "yt-dlp",
-        "-f",
-        "bv+ba",
         "-o",
         outPath,
         "--downloader",
