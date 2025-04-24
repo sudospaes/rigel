@@ -19,9 +19,7 @@ auth.use(async (ctx, next) => {
     return next();
   }
   if (!ctx.from) return;
-  const user = await db.user.findUnique({
-    where: { id: ctx.from.id.toString() },
-  });
+  const user = await db.user.findUnique({ where: { id: ctx.from.id.toString() } });
   if (!user) return;
   ctx.session.user = user;
   next();

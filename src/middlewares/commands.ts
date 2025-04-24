@@ -1,6 +1,7 @@
 import { Composer } from "grammy";
 
 import type { UserContext } from "types/type";
+import type { NextFunction } from "grammy";
 
 import db from "database";
 
@@ -17,15 +18,15 @@ it support currently:
     ☁️ SoundCloud`);
 });
 
-commands.use((ctx, next) => {
+function auth(ctx: UserContext, next: NextFunction) {
   const user = ctx.session.user;
   if (user?.role != "ADMIN") {
     return ctx.reply("Sorry you aren't admin.");
   }
   next();
-});
+}
 
-commands.command("clean", async (ctx) => {
+commands.command("clean", auth, async (ctx) => {
   try {
     await db.user.deleteMany({ where: { role: { not: "ADMIN" } } });
     await db.session.deleteMany();
@@ -36,7 +37,7 @@ commands.command("clean", async (ctx) => {
   }
 });
 
-commands.command("add", async (ctx) => {
+commands.command("add", auth, async (ctx) => {
   const text = ctx.match.trim().match(/(\d+)\s+(\S+)/);
   const id = text?.[1];
   const username = text?.[2];
@@ -59,7 +60,7 @@ commands.command("add", async (ctx) => {
   }
 });
 
-commands.command("remove", async (ctx) => {
+commands.command("remove", auth, async (ctx) => {
   const id = ctx.match.trim();
   try {
     await db.user.delete({ where: { id } });
@@ -73,7 +74,7 @@ commands.command("remove", async (ctx) => {
   }
 });
 
-commands.command("destroy", async (ctx) => {
+commands.command("destroy", auth, async (ctx) => {
   try {
     await db.archive.deleteMany();
     return ctx.reply("Archive destroy has been successful.");
@@ -83,7 +84,7 @@ commands.command("destroy", async (ctx) => {
   }
 });
 
-commands.command("users", async (ctx) => {
+commands.command("users", auth, async (ctx) => {
   const users = await db.user.findMany({ where: { role: { not: "ADMIN" } } });
   const body = `Users count: ${users.length}\n` + users.map((u) => `${u.id} ${u.username}`).join("\n");
   return ctx.reply(body);
