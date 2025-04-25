@@ -1,7 +1,6 @@
 import { Composer } from "grammy";
 
 import type { UserContext } from "types/type";
-import type { NextFunction } from "grammy";
 
 import db from "database";
 
@@ -18,12 +17,11 @@ it support currently:
     ☁️ SoundCloud`);
 });
 
-function auth(ctx: UserContext, next: NextFunction) {
+function auth(ctx: UserContext) {
   const user = ctx.session.user;
   if (user?.role != "ADMIN") {
     return ctx.reply("Sorry you aren't admin.");
   }
-  next();
 }
 
 commands.command("clean", auth, async (ctx) => {
