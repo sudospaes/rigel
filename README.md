@@ -83,4 +83,4 @@ To bypass the limitations of regualr bots on Telegram. [Read This](https://core.
 
 Spotify uses a DRM to prevent crawling and ytdlp is not able to directly get its content. So using the official Spotify APIs we get the song name and its creator and using ytdlp I download that song from YouTube Music.
 
-The reason I didn't use spotdl was that it required a separate kernel installation and had limited documentation and parameters for implementing the warpper.
+The reason I didn't use spotdl was that it is a separate core and had limited documentation and parameters for implementing the warpper.
