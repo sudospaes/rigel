@@ -13,6 +13,7 @@ This bot supports concurrency, meaning that if multiple users request the same c
 - 👯 Tiktok (Video)
 - 📸 Instagram (Video)
 - ☁️ SoundCloud
+- 🔊 Spotify
 
 ## Admin's Commands
 
@@ -41,7 +42,9 @@ Just send your media link to bot and get your content 😃. Of course, the admin
 ADMIN_ID="" # You can get it from @userinfobot.
 ADMIN_UN="" # Your username without @ if you want.
 BOT_TOKEN="" # Your bot token.
-LOCAL_API="" # Your telegram-bot-api container address
+LOCAL_API="" # Your telegram-bot-api container address.
+SPOTIFY_CLIENT_ID="" # Get this from developer.spotify.com.
+SPOTIFY_CLIENT_SECRET="" # Get this from developer.spotify.com.
 CAPTION="" # Bot messages caption.
 ```
 
@@ -65,3 +68,19 @@ bun i
 bun run init --name new_update
 
 ```
+
+## FAQ
+
+#### How does the bot communicate with ytdlp ?
+
+It executes ytdlp as a process and understands its output. Although not advanced, it is good for having a lightweight wrapper and not depending on additional packages.
+
+#### Why we need local bot api ?
+
+To bypass the limitations of regualr bots on Telegram. [Read This](https://core.telegram.org/bots/api#using-a-local-bot-api-server)
+
+#### Why we use Spotify developer console ?
+
+Spotify uses a DRM to prevent crawling and ytdlp is not able to directly get its content. So using the official Spotify APIs we get the song name and its creator and using ytdlp I download that song from YouTube Music.
+
+The reason I didn't use spotdl was that it required a separate kernel installation and had limited documentation and parameters for implementing the warpper.

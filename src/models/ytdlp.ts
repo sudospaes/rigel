@@ -27,8 +27,8 @@ abstract class Ytdlp {
     PENDING: "PENDING",
   } as const;
 
-  downloadVideo?(videoId?: string): Promise<void>;
-  downloadAudio?(): Promise<void>;
+  downloadVideo?(...args: any): Promise<void>;
+  downloadAudio?(...args: any): Promise<void>;
   formats?(): any;
 
   public async clean() {

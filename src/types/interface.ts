@@ -3,7 +3,7 @@ export interface UserSessionData {
     id: string;
     role: "ADMIN" | "USER";
     media?: {
-      type: "pin" | "yt" | "ytm" | "tt" | "ig" | "sc";
+      type: "pin" | "yt" | "ytm" | "tt" | "ig" | "sc" | "sf";
       url: string;
     };
   } | null;
@@ -24,4 +24,9 @@ export interface VideoMetadata {
   height: number;
   width: number;
   duration: number;
+}
+
+export interface SpotifyResponse {
+  song: string;
+  artist: string;
 }

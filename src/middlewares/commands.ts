@@ -15,7 +15,8 @@ it support currently:
     🎧 Youtube Music
     👯 Tiktok (Video)
     📸 Instagram (Video)
-    ☁️ SoundCloud`);
+    ☁️ SoundCloud
+    🔊 Spotify`);
 });
 
 function auth(ctx: UserContext, next: NextFunction) {
@@ -23,7 +24,7 @@ function auth(ctx: UserContext, next: NextFunction) {
   if (user?.role != "ADMIN") {
     return ctx.reply("Sorry you aren't admin.");
   }
-  next()
+  next();
 }
 
 commands.command("clean", auth, async (ctx) => {
