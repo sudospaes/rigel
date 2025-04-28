@@ -14,13 +14,11 @@ checker.on("message", (ctx, next) => {
   const user = ctx.session.user;
   const link = ctx.message?.text as string;
 
-  const match = link.match(/^(https?:\/\/)?(www\.)?/i);
-
-  if (!link || !match) {
+  if (!link || !link.match(/^https?:\/\//)) {
     return ctx.reply("Need a link to download media.");
   }
 
-  const domain = match[1];
+  const domain = link.match(/https?:\/\/(?:www\.)?([^\/]+)/i)?.at(1);
 
   if (domain == "youtu.be" || domain == "youtube.com") {
     if (link.includes("list=")) {
