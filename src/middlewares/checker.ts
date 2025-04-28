@@ -41,7 +41,7 @@ checker.on("message", (ctx, next) => {
     user!.media = { type: "pin", url: link };
   } else if (domain == "vm.tiktok.com" || domain == "tiktok.com") {
     user!.media = { type: "tt", url: link };
-  } else if (domain == "www.instagram.com" || domain == "instagram.com") {
+  } else if (domain == "instagram.com") {
     user!.media = { type: "ig", url: link };
   } else if (domain == "soundcloud.com" || domain == "on.soundcloud.com") {
     user!.media = { type: "sc", url: link };
