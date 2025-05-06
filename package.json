@@ -6,14 +6,14 @@
   "devDependencies": {
     "@types/bun": "latest",
     "@types/fluent-ffmpeg": "^2.1.27",
-    "prisma": "^6.6.0"
+    "prisma": "^6.7.0"
   },
   "peerDependencies": {
     "typescript": "^5.8.2"
   },
   "dependencies": {
     "@grammyjs/storage-prisma": "^2.5.1",
-    "@prisma/client": "^6.6.0",
+    "@prisma/client": "^6.7.0",
     "fluent-ffmpeg": "^2.1.3",
     "grammy": "^1.36.1"
   },
