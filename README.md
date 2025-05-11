@@ -77,7 +77,7 @@ It executes ytdlp as a process and understands its output. Although not advanced
 
 #### Why we need local bot api ?
 
-To bypass the limitations of regualr bots on Telegram. [Read This](https://core.telegram.org/bots/api#using-a-local-bot-api-server)
+To bypass the limitations of regular bots on Telegram. [Read This](https://core.telegram.org/bots/api#using-a-local-bot-api-server)
 
 #### Why we use Spotify developer console ?
 
