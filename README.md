@@ -50,8 +50,7 @@ CAPTION="" # Bot messages caption.
 
 7. Create `ytcookies.txt` in the current directory and put your youtube cookies on that.
 8. Run `bun run init --name first_init` to initialize database for the first time.
-9. Run `bun start` and insert your telegram account infomation.
-10. Done! if everything is correct, you should see "Bot is running...".
+9. Done! if everything is correct, you should see "Bot is running...".
 
 ## How to update
 
@@ -77,7 +76,7 @@ It executes ytdlp as a process and understands its output. Although not advanced
 
 #### Why we need local bot api ?
 
-To bypass the limitations of regualr bots on Telegram. [Read This](https://core.telegram.org/bots/api#using-a-local-bot-api-server)
+To bypass the limitations of regular bots on Telegram. [Read This](https://core.telegram.org/bots/api#using-a-local-bot-api-server)
 
 #### Why we use Spotify developer console ?
 
