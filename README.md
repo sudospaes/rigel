@@ -50,7 +50,8 @@ CAPTION="" # Bot messages caption.
 
 7. Create `ytcookies.txt` in the current directory and put your youtube cookies on that.
 8. Run `bun run init --name first_init` to initialize database for the first time.
-9. Done! if everything is correct, you should see "Bot is running...".
+9. Run `bun start`
+10. Done! if everything is correct, you should see "Bot is running...".
 
 ## How to update
 
