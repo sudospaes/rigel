@@ -14,6 +14,7 @@ class YTMusic extends Ytdlp {
     const p = spawn(
       [
         "yt-dlp",
+        "--force-ipv4",
         "--cookies",
         cookies,
         "--extract-audio",

@@ -12,6 +12,7 @@ class Tiktok extends Ytdlp {
     const p = spawn(
       [
         "yt-dlp",
+        "--force-ipv4",
         "-o",
         outPath,
         "--downloader",

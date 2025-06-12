@@ -10,7 +10,7 @@ const cookies = join(rootPath(), "ytcookies.txt");
 
 class Youtube extends Ytdlp {
   async formats() {
-    const p = spawn(["yt-dlp", "--cookies", cookies, "-F", this.url], {
+    const p = spawn(["yt-dlp", "--force-ipv4", "--cookies", cookies, "-F", this.url], {
       stdout: "pipe",
       stderr: "pipe",
     });
@@ -49,6 +49,7 @@ class Youtube extends Ytdlp {
     const p = spawn(
       [
         "yt-dlp",
+        "--force-ipv4",
         "--cookies",
         cookies,
         "-f",

@@ -12,6 +12,7 @@ class SoundCloud extends Ytdlp {
     const p = spawn(
       [
         "yt-dlp",
+        "--force-ipv4",
         "--extract-audio",
         "--audio-format",
         "mp3",
