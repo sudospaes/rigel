@@ -11,9 +11,17 @@ export async function getMetadata(filePath: string): Promise<VideoMetadata> {
     ffmpeg.ffprobe(filePath, (err, data) => {
       if (err) return reject(err);
       if (!data.streams[0]) return reject(new Error("No stream found"));
+      let height: number, width: number;
+      for (const index of data.streams) {
+        if (index.height && index.width) {
+          height = index.height;
+          width = index.width;
+          break;
+        }
+      }
       resolve({
-        height: data.streams[0].height!,
-        width: data.streams[0].width!,
+        height: height!,
+        width: width!,
         duration: data.format.duration!,
       });
     });
