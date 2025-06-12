@@ -8,7 +8,6 @@ import handleYTMusic from "middlewares/services/youtube-muisc";
 import handleTiktok from "middlewares/services/tiktok";
 import handleInstagram from "./services/instagram";
 import handleSoundCloud from "./services/soundcloud";
-import handleSpotify from "./services/spotify";
 
 import { youtubeFormatsList } from "middlewares/services/youtube";
 
@@ -37,10 +36,6 @@ downloader.use((ctx, next) => {
 
     case "sc":
       runDetached(() => handleSoundCloud(ctx, media.url));
-      break;
-
-    case "sf":
-      runDetached(() => handleSpotify(ctx, media.url));
       break;
 
     case "yt":

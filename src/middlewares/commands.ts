@@ -15,8 +15,7 @@ it support currently:
     🎧 Youtube Music
     👯 Tiktok (Video)
     📸 Instagram (Video)
-    ☁️ SoundCloud
-    🔊 Spotify`);
+    ☁️ SoundCloud`);
 });
 
 function auth(ctx: UserContext, next: NextFunction) {

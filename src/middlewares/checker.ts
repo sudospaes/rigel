@@ -30,11 +30,6 @@ checker.on("message", (ctx, next) => {
       return ctx.reply("Playlist is not support currently.");
     }
     user!.media = { type: "ytm", url: link };
-  } else if (domain == "open.spotify.com") {
-    if (!link.includes("track")) {
-      return ctx.reply("Anything except track is not support currently.");
-    }
-    user!.media = { type: "sf", url: link };
   } else if (domain == "pin.it" || domain == "pinterest.com") {
     user!.media = { type: "pin", url: link };
   } else if (domain == "vm.tiktok.com" || domain == "tiktok.com") {
