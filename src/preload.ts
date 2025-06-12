@@ -3,8 +3,6 @@ import db from "database";
 const adminId = Bun.env.ADMIN_ID as string;
 const botToken = Bun.env.BOT_TOKEN as string;
 const localApi = Bun.env.LOCAL_API as string;
-const spotifyClientId = Bun.env.SPOTIFY_CLIENT_ID as string;
-const spotifyclientSecret = Bun.env.SPOTIFY_CLIENT_SECRET as string;
 
 if (!adminId) {
   console.log("Admin id isn't provided");
@@ -18,16 +16,6 @@ if (!botToken) {
 
 if (!localApi) {
   console.log("Local API isn't provided");
-  process.exit(1);
-}
-
-if (!spotifyClientId) {
-  console.log("Spotify client id isn't provided");
-  process.exit(1);
-}
-
-if (!spotifyclientSecret) {
-  console.log("Spotify client secret isn't provided");
   process.exit(1);
 }
 
