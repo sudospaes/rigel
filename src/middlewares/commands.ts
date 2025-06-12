@@ -1,5 +1,7 @@
 import { Composer } from "grammy";
 
+import { spawn } from "bun";
+
 import type { UserContext } from "types/type";
 import type { NextFunction } from "grammy";
 
@@ -88,6 +90,19 @@ commands.command("users", auth, async (ctx) => {
   const users = await db.user.findMany({ where: { role: { not: "ADMIN" } } });
   const body = `Users count: ${users.length}\n` + users.map((u) => `${u.id} ${u.username}`).join("\n");
   return ctx.reply(body);
+});
+
+commands.command("update", auth, async (ctx) => {
+  const p = spawn(["yt-dlp", "-U"], {
+    stderr: "pipe",
+    stdout: "pipe",
+  });
+  const exitCode = await p.exited;
+  if (exitCode != 0) {
+    console.log(await new Response(p.stderr).text());
+    return ctx.reply("Updating yt-dlp has been failed.");
+  }
+  ctx.reply("Updating yt-dlp has been successful.");
 });
 
 export default commands;

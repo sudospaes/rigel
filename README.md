@@ -16,13 +16,14 @@ This bot supports concurrency, meaning that if multiple users request the same c
 
 ## Admin's Commands
 
-| Command  | Example                                       | Description                    |
-| -------- | --------------------------------------------- | ------------------------------ |
-| /users   | /users                                        | Show allowed users             |
-| /add     | /add 12345667 <-- (user id) name <-- (a name) | Add a user to can use bot      |
-| /remove  | /remove 12345667 <-- (user id)                | Remove a user to can't use bot |
-| /clean   | /clean                                        | Delete all allowed users       |
-| /destroy | /destroy                                      | Clearing the entire archive    |
+| Command  | Example                                       | Description                     |
+| -------- | --------------------------------------------- | ------------------------------- |
+| /users   | /users                                        | Show allowed users              |
+| /add     | /add 12345667 <-- (user id) name <-- (a name) | Add a user to can use bot       |
+| /remove  | /remove 12345667 <-- (user id)                | Remove a user to can't use bot  |
+| /clean   | /clean                                        | Delete all allowed users        |
+| /destroy | /destroy                                      | Clearing the entire archive     |
+| /update  | /update                                       | Update yt-dlp to latest version |
 
 ## Usage
 
