@@ -8,6 +8,7 @@ import handleYTMusic from "middlewares/services/youtube-muisc";
 import handleTiktok from "middlewares/services/tiktok";
 import handleInstagram from "./services/instagram";
 import handleSoundCloud from "./services/soundcloud";
+import handleBiliBili from "./services/bilibili";
 
 import { youtubeFormatsList } from "middlewares/services/youtube";
 
@@ -36,6 +37,10 @@ downloader.use((ctx, next) => {
 
     case "sc":
       runDetached(() => handleSoundCloud(ctx, media.url));
+      break;
+
+    case "bili":
+      runDetached(() => handleBiliBili(ctx, media.url));
       break;
 
     case "yt":

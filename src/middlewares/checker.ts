@@ -38,6 +38,11 @@ checker.on("message", (ctx, next) => {
     user!.media = { type: "ig", url: link };
   } else if (domain == "soundcloud.com" || domain == "on.soundcloud.com") {
     user!.media = { type: "sc", url: link };
+  } else if (domain == "bilibili.tv") {
+    if (!link.includes("/play/")) {
+      return ctx.reply("BiliBili video only supported.");
+    }
+    user!.media = { type: "bili", url: link };
   } else return ctx.reply("Unsupported platform! ❌");
 
   next();

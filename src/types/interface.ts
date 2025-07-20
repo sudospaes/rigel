@@ -3,7 +3,7 @@ export interface UserSessionData {
     id: string;
     role: "ADMIN" | "USER";
     media?: {
-      type: "pin" | "yt" | "ytm" | "tt" | "ig" | "sc" | "sf";
+      type: "pin" | "yt" | "ytm" | "tt" | "ig" | "sc" | "bili";
       url: string;
     };
   } | null;
