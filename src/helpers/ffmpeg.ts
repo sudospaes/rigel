@@ -10,19 +10,18 @@ export async function getMetadata(filePath: string): Promise<VideoMetadata> {
   return new Promise((resolve, reject) => {
     ffmpeg.ffprobe(filePath, (err, data) => {
       if (err) return reject(err);
-      if (!data.streams[0]) return reject(new Error("No stream found"));
-      let height: number, width: number;
-      for (const index of data.streams) {
-        if (index.height && index.width) {
-          height = index.height;
-          width = index.width;
+      if (data.streams.length === 0) return reject(new Error("No stream found"));
+      let i = 0; // Stream index
+      for (const item of data.streams) {
+        if (item.height && item.width) {
+          i = item.index;
           break;
         }
       }
       resolve({
-        height: height!,
-        width: width!,
         duration: data.format.duration!,
+        height: data.streams[i].height!,
+        width: data.streams[i].width!,
       });
     });
   });
